@@ -1,0 +1,5 @@
+themes
+.idea/
+__pychache__/
+.DS_Store
+*.pyc
