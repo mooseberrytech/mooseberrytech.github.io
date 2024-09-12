@@ -1,5 +1,5 @@
 # Mooseberry Tech Blog
 
-Coming soon ...
+Coming soon
 
 
