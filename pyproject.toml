@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "mooseberrytech-github-io"
+version = "0.1.0"
+description = ""
+authors = ["Adriana Vasiu <vasiu.adriana@gmail.com>"]
+readme = "README.md"
+packages = [{include = "mooseberrytech"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pelican = "^4.9.1"
+ghp-import = "^2.1.0"
+markdown = "^3.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
