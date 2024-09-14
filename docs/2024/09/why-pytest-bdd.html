@@ -19,9 +19,6 @@
 
   <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
 
-  <!-- Code highlight color scheme -->
-      <link href="/theme/css/code_blocks/github.css" rel="stylesheet">
-
 
   <!-- Custom fonts -->
   <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
@@ -34,28 +31,50 @@
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   <![endif]-->
 
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
 
 
-    <meta name="description" content="Introduction This blog posts doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your...">
 
-    <meta name="author" content="Adriana">
+
+
+
+
+    <meta name="description" content="Introduction This blog post doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your...">
+
+    <meta name="author" content="Adriana Vasiu">
 
 
 
 
 
 <!-- Open Graph -->
-<meta property="og:site_name" content=""/>
-<meta property="og:title" content="Why pytest-bdd?"/>
-<meta property="og:description" content="Introduction This blog posts doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your..."/>
-<meta property="og:locale" content="en_US"/>
-<meta property="og:url" content="/2024/09/why-pytest-bdd.html"/>
-<meta property="og:type" content="article"/>
-<meta property="article:published_time" content="2024-09-12 00:00:00+01:00"/>
-<meta property="article:modified_time" content=""/>
-<meta property="article:author" content="/author/adriana">
-<meta property="article:section" content="misc"/>
-<meta property="og:image" content="/theme/images/post-bg.jpg">
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Why pytest-bdd?"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction This blog post doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/09/why-pytest-bdd.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-09-12 00:00:00+01:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="testing"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
 
 <!-- Twitter Card -->
 
@@ -69,82 +88,107 @@
   "dateModified": "",
   "author": {
     "@type": "Person",
-    "name": "Adriana",
-    "url": "/author/adriana"
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
   },
   "image": "/theme/images/post-bg.jpg",
   "url": "/2024/09/why-pytest-bdd.html",
-  "description": "Introduction This blog posts doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your..."
+  "description": "Introduction This blog post doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your..."
 }
 </script>
 </head>
-<!-- TODO : Body class -->
-<body class="home-template">
 
-<nav id="menu">
-  <a class="close-button">Close</a>
-  <div class="nav-wrapper">
-    <p class="nav-label">Menu</p>
-    <ul>
 
-              <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/">About Mooseberry Tech Blog</a></li>
 
-    </ul>
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
   </div>
-</nav>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
     <!-- Progressbar -->
     <div class="progress-container">
-        <span class="progress-bar"></span>
+      <span class="progress-bar"></span>
     </div>
 
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
-    <header id="post-header" >
+    <header class="post-header ">
       <div class="inner">
-        <nav id="navigation">
-            <span id="home-button" class="nav-button">
-                <a class="home-button" href="/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
-            </span>
-          <span id="menu-button" class="nav-button">
-            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
-          </span>
-        </nav>
-        <h1 class="post-title">Why pytest-bdd?</h1>
-        <!-- TODO : Proper class for headline -->
-        <span class="post-meta">
-                <a href="/author/adriana">Adriana Vasiu</a>
-            | <time datetime="Thu 12 September 2024">Thu 12 September 2024</time>
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Testing</span>
         </span>
-        <!-- TODO : Modified check -->
+        <h1 class="post-title">Why pytest-bdd?</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Thu 12 September 2024">Thu 12 September 2024</time>
+        </div>
       </div>
     </header>
-
-  <section id="wrapper">
-    <a class="hidden-close"></a>
 
     <!-- Post content -->
     <main class="content" role="main">
         <article class="post">
         <div class="inner">
-            <section class="post-content">
-                <h3>Introduction</h3>
-<p>This blog posts doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your software development lifecycle and you have been looking around for what frameworks to choose, than this post might be useful for you.</p>
+          <section class="post-content">
+            <h3>Introduction</h3>
+<p>This blog post doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your software development lifecycle, and you have been looking around for what frameworks to choose, than this post might be useful for you.</p>
 <h3>Why use pytest-bdd?</h3>
 <p>I have used a lot of BDD frameworks in the past. The ones that I remember are Lettuce, Freshen and Behave. All of them worked ok. They did the job. 
-Behave for example, is very feature reach, it offers features like data tables which is particularly useful for building data driven tests. All that worked well.</p>
+Behave for example, is very feature reach, it offers features like data tables which is particularly useful for building data driven tests.</p>
 <p>But each of those frameworks came in short in some aspects. I am not going to focus on a feature by feature comparison on all these frameworks. 
-Instead, I am going to share what I would like to see in a testing framework and how <a href="https://pytest-bdd.readthedocs.io/en/stable/">pytest-bdd</a> measures against that. </p>
-<p>Here are the main aspects that are important to me:
-- it is simple
-- it is easy to run
+Instead, I am going to share what I would like to see in a testing framework and how <a href="https://pytest-bdd.readthedocs.io/en/stable/">pytest-bdd</a> measures against that.</p>
+<p>I am looking for a testing framework that:
+- it's simple
+- it's easy to run
 - encourages explicit behaviour rather than implicit
 - has an active support community
 - comes with good documentation
 - supports running scenarios in parallel</p>
-<p>Let's address each of the points above and see why pytest-bdd measures against them.</p>
-<h4>Simple</h4>
-<p>What does it take to set up the framework?
-Step 1. Install the package. (Let's assume you are using poetry.)</p>
+<p>And here is how <code>pytest-bdd</code> does on all the points above.</p>
+<h4>Simple to set up</h4>
+<p>Step 1. Install the package. (Let's assume you are using poetry.)</p>
 <div class="highlight"><pre><span></span><code>poetry add pytest-bdd
 </code></pre></div>
 
@@ -164,8 +208,8 @@ Step 1. Install the package. (Let's assume you are using poetry.)</p>
     <span class="n">Then</span> <span class="n">my</span> <span class="n">blog</span> <span class="n">will</span> <span class="n">contain</span> <span class="mi">3</span> <span class="n">posts</span>
 </code></pre></div>
 
-<p>^^ <code>demo.feature</code>
-Step 4. Create the test that runs the feature and implement the scenario steps.</p>
+<p>^^ <code>demo.feature</code></p>
+<p>Step 4. Create the test that runs the feature. Implement the scenario steps.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pytest_bdd</span> <span class="kn">import</span> <span class="n">scenarios</span><span class="p">,</span> <span class="n">given</span><span class="p">,</span> <span class="n">when</span><span class="p">,</span> <span class="n">then</span><span class="p">,</span> <span class="n">parsers</span>
 
 <span class="n">scenarios</span><span class="p">(</span><span class="s2">&quot;features/demo.feature&quot;</span><span class="p">)</span>
@@ -193,11 +237,11 @@ Step 4. Create the test that runs the feature and implement the scenario steps.<
 <p>Tests written with <code>pytest-bdd</code> take advantage of the <code>pytest</code> runner, and the autodiscovery of tests that it provides.
 Run your test with <code>pytest</code> (This assumes <code>pytest-bdd</code> was installed with poetry.):
 <code>poetry run pytest</code>
-This will automatically find all files named with the prefix <code>test_</code> in the <code>tests</code> directory.</p>
+This will automatically find and run all tests in files with the prefix <code>test_</code> in the <code>tests</code> directory.</p>
 <h4>Explicit behaviour rather than explicit</h4>
-<p>I like that pytest makes the state management of your steps obvious and explicit.
-There is no context object that is passed implicitly in every step, <code>pytest-bdd</code> makes use of <a href="https://docs.pytest.org/en/6.2.x/fixture.html">fixtures</a>
-to manage state and fixtures are explicit, modular and scalable.
+<p>I like that <code>pytest-bdd</code> makes the state management of the steps obvious and explicit.
+There is no context object that is passed implicitly in every step.
+<code>pytest-bdd</code> makes use of <a href="https://docs.pytest.org/en/6.2.x/fixture.html">pytest fixtures</a> to manage state and fixtures are explicit, modular and scalable.
 Here is an example of a fixture passed from one step into the next.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Blog</span><span class="p">:</span>
@@ -225,17 +269,17 @@ Here is an example of a fixture passed from one step into the next.</p>
     <span class="k">assert</span> <span class="n">blog</span><span class="o">.</span><span class="n">posts</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">number_of_posts</span><span class="p">)</span>
 </code></pre></div>
 
-<p>^^ <code>test_demo.py</code>
-The fixture <code>blog</code> is overriden in the <code>given_blog</code> step, then passed into the next <code>when_publish</code> step and re-used 
+<p>^^ <code>test_demo.py</code></p>
+<p>The fixture <code>blog</code> is overriden in the <code>given_blog</code> step, then passed into the next <code>when_publish</code> step and re-used 
 in the <code>check_blog_posts</code> step for verification.
-The state is defined explicitly, you know which fixture you are targeting or modifying.</p>
+The state is defined explicitly, you know which fixture you are targeting or modifying with each step.</p>
 <h4>Community and Documentation</h4>
 <p>The <a href="https://github.com/pytest-dev/pytest-bdd">pytest-bdd</a> codebase and documentation are frequently updated. 
 There are quite a few issues logged and discussed, and sometimes workarounds are proposed. 
 There are also a lot of video and written tutorials published online or how to use the framework.</p>
 <h4>Supports Running Scenarios in parallel</h4>
-<p><code>pytest-bdd</code> integrates with <a href="https://pytest-xdist.readthedocs.io/en/stable/">pytest-xdist</a>.
-Install <code>pytest-dist</code> (Let's assume you are using poetry.):</p>
+<p><code>pytest-bdd</code> integrates with <a href="https://pytest-xdist.readthedocs.io/en/stable/">pytest-xdist</a>.</p>
+<p>Install <code>pytest-dist</code> (Let's assume you are using poetry.):</p>
 <div class="highlight"><pre><span></span><code>poetry add pytest-xdist
 </code></pre></div>
 
@@ -246,69 +290,133 @@ Install <code>pytest-dist</code> (Let's assume you are using poetry.):</p>
 <h4>Summary</h4>
 <p>If you are looking for a BDD framework that you want to start using in minutes and especially if you are 
 already using the feature rich <code>pytest</code> framework, give <code>pytest-bdd</code> a try. 
-It's the framework that will allow you to write steps in the most python way and allows you to run all your tests with one command.</p>
-            </section>
-
-            <section class="post-info">
-                <div class="post-share">
-                    <a class="twitter" href="https://twitter.com/share?text=Why pytest-bdd?&amp;url=/2024/09/why-pytest-bdd.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
-                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
-                    </a>
-                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/09/why-pytest-bdd.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
-                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
-                    </a>
-                    <a class="googleplus" href="https://plus.google.com/share?url=/2024/09/why-pytest-bdd.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
-                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
-                    </a>
-                    <div class="clear"></div>
-                </div>
+It's the framework that allows you to write steps in the most pythonic way and you can run all your tests with just one command.</p>
+          </section>
 
 
-                <div class="clear"></div>
-
-                <aside class="post-author">
-
-
-                        <figure class="post-author-avatar">
-                            <img src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
-                        </figure>
-                    <div class="post-author-bio">
-                        <h4 class="post-author-name"><a href="/author/adriana">Adriana Vasiu</a></h4>
-                            <p class="post-author-about">I currently work as a consultant on software development.</p>
-                            <span class="post-author-location"><i class="ic ic-location"></i> London</span>
-                        <!-- Social linkes in alphabet order. -->
-                            <span class="post-author-linkedin"><a target="_blank" href="https://www.linkedin.com/in/unavailable"><i class="ic ic-link"></i> LinkedIn</a></span>
-                    </div>
-                    <div class="clear"></div>
-                </aside>
-
-                </section>
-
-
-                <aside class="post-nav">
-                    <div class="clear"></div>
-                </aside>
-
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Why pytest-bdd?&amp;url=/2024/09/why-pytest-bdd.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/09/why-pytest-bdd.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/09/why-pytest-bdd.html&amp;title=Why pytest-bdd?" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Why pytest-bdd?&amp;body=/2024/09/why-pytest-bdd.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
             </div>
-        </article>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
     </main>
-      <!-- TODO : Body class -->
-    <div id="body-class" style="display: none;" class=""></div>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
 
-    <footer id="footer">
-      <div class="inner">
-        <section class="credits">
 
 
-          <span class="credits-theme">Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a></span>
-          <span class="credits-software">Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a></span>
-        </section>
-      </div>
-    </footer>
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
   </section>
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
   <script type="text/javascript" src="/theme/js/script.js"></script>
 
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
 </body>
+
 </html>

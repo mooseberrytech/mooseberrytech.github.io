@@ -1,36 +1,35 @@
 title: Why pytest-bdd?
 date: 2024-09-12
-author: Adriana
+author: Adriana Vasiu
+category: testing
 
 ### Introduction
-This blog posts doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your software development lifecycle and you have been looking around for what frameworks to choose, than this post might be useful for you.
+This blog post doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your software development lifecycle, and you have been looking around for what frameworks to choose, than this post might be useful for you.
 
 ### Why use pytest-bdd?
 I have used a lot of BDD frameworks in the past. The ones that I remember are Lettuce, Freshen and Behave. All of them worked ok. They did the job. 
-Behave for example, is very feature reach, it offers features like data tables which is particularly useful for building data driven tests. All that worked well.
+Behave for example, is very feature reach, it offers features like data tables which is particularly useful for building data driven tests.
 
 But each of those frameworks came in short in some aspects. I am not going to focus on a feature by feature comparison on all these frameworks. 
-Instead, I am going to share what I would like to see in a testing framework and how [pytest-bdd](https://pytest-bdd.readthedocs.io/en/stable/) measures against that. 
+Instead, I am going to share what I would like to see in a testing framework and how [pytest-bdd](https://pytest-bdd.readthedocs.io/en/stable/) measures against that.
 
-Here are the main aspects that are important to me:
-- it is simple
-- it is easy to run
+I am looking for a testing framework that:
+- it's simple
+- it's easy to run
 - encourages explicit behaviour rather than implicit
 - has an active support community
 - comes with good documentation
 - supports running scenarios in parallel
 
-Let's address each of the points above and see why pytest-bdd measures against them.
+And here is how `pytest-bdd` does on all the points above.
 
-#### Simple
+#### Simple to set up
 
-What does it take to set up the framework?
 Step 1. Install the package. (Let's assume you are using poetry.)
 ```commandline
 poetry add pytest-bdd
 ```
 Step 2. Create your test structure.
-
 ```commandline
 tests
    features
@@ -49,7 +48,8 @@ Feature:
 ```
 
 ^^ `demo.feature`
-Step 4. Create the test that runs the feature and implement the scenario steps.
+
+Step 4. Create the test that runs the feature. Implement the scenario steps.
 
 ```python 
 
@@ -83,17 +83,16 @@ This is it! You have everything you need to start implementing your first test.
 Tests written with `pytest-bdd` take advantage of the `pytest` runner, and the autodiscovery of tests that it provides.
 Run your test with `pytest` (This assumes `pytest-bdd` was installed with poetry.):
 `poetry run pytest`
-This will automatically find all files named with the prefix `test_` in the `tests` directory.
+This will automatically find and run all tests in files with the prefix `test_` in the `tests` directory.
 
 #### Explicit behaviour rather than explicit
 
-I like that pytest makes the state management of your steps obvious and explicit.
-There is no context object that is passed implicitly in every step, `pytest-bdd` makes use of [fixtures](https://docs.pytest.org/en/6.2.x/fixture.html)
-to manage state and fixtures are explicit, modular and scalable.
+I like that `pytest-bdd` makes the state management of the steps obvious and explicit.
+There is no context object that is passed implicitly in every step.
+`pytest-bdd` makes use of [pytest fixtures](https://docs.pytest.org/en/6.2.x/fixture.html) to manage state and fixtures are explicit, modular and scalable.
 Here is an example of a fixture passed from one step into the next.
 
 ```python
-
 @dataclasses.dataclass
 class Blog:
     posts: int = 0
@@ -120,9 +119,10 @@ def check_blog_posts(number_of_posts, blog):
     assert blog.posts == int(number_of_posts)
 ```
 ^^ `test_demo.py`
+
 The fixture `blog` is overriden in the `given_blog` step, then passed into the next `when_publish` step and re-used 
 in the `check_blog_posts` step for verification.
-The state is defined explicitly, you know which fixture you are targeting or modifying.
+The state is defined explicitly, you know which fixture you are targeting or modifying with each step.
 
 #### Community and Documentation
 The [pytest-bdd](https://github.com/pytest-dev/pytest-bdd) codebase and documentation are frequently updated. 
@@ -132,6 +132,7 @@ There are also a lot of video and written tutorials published online or how to u
 #### Supports Running Scenarios in parallel
 
 `pytest-bdd` integrates with [pytest-xdist](https://pytest-xdist.readthedocs.io/en/stable/).
+
 Install `pytest-dist` (Let's assume you are using poetry.):
 ```commandline 
 poetry add pytest-xdist
@@ -144,7 +145,7 @@ poetry run pytest -n auto
 #### Summary
 If you are looking for a BDD framework that you want to start using in minutes and especially if you are 
 already using the feature rich `pytest` framework, give `pytest-bdd` a try. 
-It's the framework that will allow you to write steps in the most python way and allows you to run all your tests with one command.
+It's the framework that allows you to write steps in the most pythonic way and you can run all your tests with just one command.
 
 
 
