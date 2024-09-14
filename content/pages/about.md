@@ -1,5 +1,5 @@
 title: About Mooseberry Tech Blog
 date: 2020-08-24
-author: Adriana
+author: Adriana Vasiu
 
-The blog is coming soon
+MooseberryTech's Technical Blog.

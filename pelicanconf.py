@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 
-AUTHOR = 'Adriana'
+AUTHOR = 'Adriana Vasiu'
 SITENAME = ''
 SITEURL = ''
 
@@ -19,11 +19,12 @@ TRANSLATION_FEED_ATOM = None
 AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
+MENUITEMS = (('Home', '/'),
+             ('Author', '/author/adriana/'),
+             ('Testing', '/category/testing/'),)
+
 # Blogroll
-LINKS = (('Pelican', 'https://getpelican.com/'),
-         ('Python.org', 'https://www.python.org/'),
-         ('Jinja2', 'https://palletsprojects.com/p/jinja/'),
-         ('You can modify those links in your config file', '#'),)
+LINKS = ()
 
 # Social widget
 SOCIAL = (('You can add links in your config file', '#'),
@@ -60,14 +61,12 @@ AUTHOR_URL = 'author/{slug}'
 AUTHOR_SAVE_AS = 'author/{slug}/index.html'
 AUTHORS_SAVE_AS = 'authors.html'
 
-AUTHORS_BIO = {
-  "adriana": {
-    "name": "Adriana",
+AUTHOR_META = {
+  "adriana vasiu": {
+    "name": "Adriana Vasiu",
     "image": "images/mooseberry_tech-512x512-NO-TEXT.png",
-    "linkedin": "unavailable",
-    "github": "",
-    "location": "London",
-    "bio": "This is the place for a small biography with max 200 characters. Well, now 100 are left. Cool, hugh?"
+    "linkedin": "adrianavasiu",
+    "bio": "I currently work as a consultant on software development."
   }
 }
 
