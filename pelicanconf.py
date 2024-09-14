@@ -20,7 +20,7 @@ AUTHOR_FEED_ATOM = None
 AUTHOR_FEED_RSS = None
 
 MENUITEMS = (('Home', '/'),
-             ('Author', '/author/adriana/'),
+             ('Author', '/author/adriana-vasiu/'),
              ('Testing', '/category/testing/'),)
 
 # Blogroll
