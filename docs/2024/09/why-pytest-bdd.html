@@ -127,9 +127,9 @@
         <article class="post">
         <div class="inner">
             <section class="post-content">
-                <h2>Introduction</h2>
+                <h3>Introduction</h3>
 <p>This blog posts doesn't advocate for BDD testing. If you are already convinced that you need some BDD tests as part of your software development lifecycle and you have been looking around for what frameworks to choose, than this post might be useful for you.</p>
-<h2>Why use pytest-bdd?</h2>
+<h3>Why use pytest-bdd?</h3>
 <p>I have used a lot of BDD frameworks in the past. The ones that I remember are Lettuce, Freshen and Behave. All of them worked ok. They did the job. 
 Behave for example, is very feature reach, it offers features like data tables which is particularly useful for building data driven tests. All that worked well.</p>
 <p>But each of those frameworks came in short in some aspects. I am not going to focus on a feature by feature comparison on all these frameworks. 
@@ -140,11 +140,11 @@ Instead, I am going to share what I would like to see in a testing framework and
 - encourages explicit behaviour rather than implicit
 - has an active support community
 - comes with good documentation
-- supports running scenarios in parallel</p>
-<p>Let's address each of the points above and see why pytest-bdd measures against them.</p>
+- supports running scenarios in parallel
+Let's address each of the points above and see why pytest-bdd measures against them.</p>
 <h3>Simple</h3>
-<p>What does it take to set up the framework?</p>
-<p>Step 1. Install the package. (Let's assume you are using poetry.)</p>
+<p>What does it take to set up the framework?
+Step 1. Install the package. (Let's assume you are using poetry.)</p>
 <div class="highlight"><pre><span></span><code>poetry add pytest-bdd
 </code></pre></div>
 
@@ -164,8 +164,8 @@ Instead, I am going to share what I would like to see in a testing framework and
 <span class="w">    </span><span class="n">Then</span><span class="w"> </span><span class="n">my</span><span class="w"> </span><span class="n">blog</span><span class="w"> </span><span class="n">will</span><span class="w"> </span><span class="n">contain</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="n">posts</span>
 </code></pre></div>
 
-<p>^^ <code>demo.feature</code></p>
-<p>Step 4. Create the test that runs the feature and implement the scenario steps.</p>
+<p>^^ <code>demo.feature</code>
+Step 4. Create the test that runs the feature and implement the scenario steps.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pytest_bdd</span> <span class="kn">import</span> <span class="n">scenarios</span><span class="p">,</span> <span class="n">given</span><span class="p">,</span> <span class="n">when</span><span class="p">,</span> <span class="n">then</span><span class="p">,</span> <span class="n">parsers</span>
 
 <span class="n">scenarios</span><span class="p">(</span><span class="s2">&quot;features/demo.feature&quot;</span><span class="p">)</span>
@@ -188,17 +188,17 @@ Instead, I am going to share what I would like to see in a testing framework and
 </code></pre></div>
 
 <p>^^ <code>test_demo.py</code></p>
-<p>This is it! You have everything you need to start implementing your first test. </p>
+<p>This is it! You have everything you need to start implementing your first test.</p>
 <h3>Easy to run</h3>
-<p>Tests written with <code>pytest-bdd</code> take advantage of the <code>pytest</code> runner, and the autodiscovery of tests that it provides.</p>
-<p>Run your test with <code>pytest</code> (This assumes <code>pytest-bdd</code> was installed with poetry.):
+<p>Tests written with <code>pytest-bdd</code> take advantage of the <code>pytest</code> runner, and the autodiscovery of tests that it provides.
+Run your test with <code>pytest</code> (This assumes <code>pytest-bdd</code> was installed with poetry.):
 <code>poetry run pytest</code>
 This will automatically find all files named with the prefix <code>test_</code> in the <code>tests</code> directory.</p>
 <h3>Explicit behaviour rather than explicit</h3>
 <p>I like that pytest makes the state management of your steps obvious and explicit.
 There is no context object that is passed implicitly in every step, <code>pytest-bdd</code> makes use of <a href="https://docs.pytest.org/en/6.2.x/fixture.html">fixtures</a>
-to manage state and fixtures are explicit, modular and scalable. </p>
-<p>Here is an example of a fixture passed from one step into the next.</p>
+to manage state and fixtures are explicit, modular and scalable.
+Here is an example of a fixture passed from one step into the next.</p>
 <div class="highlight"><pre><span></span><code><span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
 <span class="k">class</span> <span class="nc">Blog</span><span class="p">:</span>
     <span class="n">posts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
@@ -225,17 +225,17 @@ to manage state and fixtures are explicit, modular and scalable. </p>
     <span class="k">assert</span> <span class="n">blog</span><span class="o">.</span><span class="n">posts</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="n">number_of_posts</span><span class="p">)</span>
 </code></pre></div>
 
-<p>^^ <code>test_demo.py</code></p>
-<p>The fixture <code>blog</code> is overriden in the <code>given_blog</code> step, then passed into the next <code>when_publish</code> step and re-used 
+<p>^^ <code>test_demo.py</code>
+The fixture <code>blog</code> is overriden in the <code>given_blog</code> step, then passed into the next <code>when_publish</code> step and re-used 
 in the <code>check_blog_posts</code> step for verification.
 The state is defined explicitly, you know which fixture you are targeting or modifying.</p>
 <h2>Community and Documentation</h2>
 <p>The <a href="https://github.com/pytest-dev/pytest-bdd">pytest-bdd</a> codebase and documentation are frequently updated. 
 There are quite a few issues logged and discussed, and sometimes workarounds are proposed. 
-There are also a lot of video and written tutorials published online or how to use the framework. </p>
+There are also a lot of video and written tutorials published online or how to use the framework.</p>
 <h2>Supports Running Scenarios in parallel</h2>
-<p><code>pytest-bdd</code> integrates with <a href="https://pytest-xdist.readthedocs.io/en/stable/">pytest-xdist</a>.</p>
-<p>Install <code>pytest-dist</code> (Let's assume you are using poetry.):</p>
+<p><code>pytest-bdd</code> integrates with <a href="https://pytest-xdist.readthedocs.io/en/stable/">pytest-xdist</a>.
+Install <code>pytest-dist</code> (Let's assume you are using poetry.):</p>
 <div class="highlight"><pre><span></span><code>poetry add pytest-xdist
 </code></pre></div>
 
