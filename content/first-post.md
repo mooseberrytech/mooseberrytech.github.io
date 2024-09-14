@@ -86,7 +86,7 @@ Run your test with `pytest` (This assumes `pytest-bdd` was installed with poetry
 `poetry run pytest`
 This will automatically find and run all tests in files with the prefix `test_` in the `tests` directory.
 
-#### Explicit behaviour rather than explicit
+#### Explicit behaviour rather than implicit
 
 I like that `pytest-bdd` makes the state management of the steps obvious and explicit.
 There is no context object that is passed implicitly in every step.
