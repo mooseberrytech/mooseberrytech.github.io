@@ -40,16 +40,18 @@ tests
 ```
 Step 3. Create a test feature with one scenario.
 
-```
+```python
 Feature:
   Scenario: Run a demo for the blog
     Given I have a blog with 2 posts
     When I publish a new post
     Then my blog will contain 3 posts
 ```
+
 ^^ `demo.feature`
 Step 4. Create the test that runs the feature and implement the scenario steps.
-```python
+
+```python 
 
 from pytest_bdd import scenarios, given, when, then, parsers
 
