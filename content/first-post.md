@@ -14,6 +14,7 @@ But each of those frameworks came in short in some aspects. I am not going to fo
 Instead, I am going to share what I would like to see in a testing framework and how [pytest-bdd](https://pytest-bdd.readthedocs.io/en/stable/) measures against that.
 
 I am looking for a testing framework that:
+
 - it's simple
 - it's easy to run
 - encourages explicit behaviour rather than implicit
