@@ -240,7 +240,7 @@ Instead, I am going to share what I would like to see in a testing framework and
 Run your test with <code>pytest</code> (This assumes <code>pytest-bdd</code> was installed with poetry.):
 <code>poetry run pytest</code>
 This will automatically find and run all tests in files with the prefix <code>test_</code> in the <code>tests</code> directory.</p>
-<h4>Explicit behaviour rather than explicit</h4>
+<h4>Explicit behaviour rather than implicit</h4>
 <p>I like that <code>pytest-bdd</code> makes the state management of the steps obvious and explicit.
 There is no context object that is passed implicitly in every step.
 <code>pytest-bdd</code> makes use of <a href="https://docs.pytest.org/en/6.2.x/fixture.html">pytest fixtures</a> to manage state and fixtures are explicit, modular and scalable.
