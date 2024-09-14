@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- #
 
-AUTHOR = 'Adriana'
+AUTHOR = 'Adriana Vasiu'
 SITENAME = ''
 SITEURL = ''
 
@@ -62,12 +62,12 @@ AUTHORS_SAVE_AS = 'authors.html'
 
 AUTHORS_BIO = {
   "adriana": {
-    "name": "Adriana",
+    "name": "Adriana Vasiu",
     "image": "images/mooseberry_tech-512x512-NO-TEXT.png",
     "linkedin": "unavailable",
     "github": "",
     "location": "London",
-    "bio": "This is the place for a small biography with max 200 characters. Well, now 100 are left. Cool, hugh?"
+    "bio": "I currently work as a consultant on software development."
   }
 }
 
