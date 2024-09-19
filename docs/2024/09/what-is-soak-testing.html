@@ -232,7 +232,7 @@ Those users can be end users but for back-end systems most likely those users wo
 Are those services in the same cluster and can access your own service via an internal service discovery mechanism?
 Or are they outside your own ecosystem? This will influence the test because you might want to test via a load balancer for 
 example.</p>
-<h4>2. Have configurable and stackable tests</h4>
+<h4>3. Have configurable and stackable tests</h4>
 <p>When you have multiple parts of the systems that you are trying to exercise, for example the background tasks as well 
 as some APIs, consider building your tests so that you can exercise the APIs and the tasks separately. 
 This gives you more flexibility when you are trying to simulate various profiles like peak and average load lets say. 
@@ -240,7 +240,7 @@ You could have a test that runs on constant load to trigger the background tasks
 it with tests at various intensity for your APIs.</p>
 <p>One simple way to do this would be to build a test image that you use in two separate modes - api testing and task testing.
 Then you can run this image in two separate modes using two different jobs.</p>
-<h4>3. Use alerting as an evaluation mechanism</h4>
+<h4>4. Use alerting as an evaluation mechanism</h4>
 <p>Let's assume that the aspects of your system that you want to assess after the test are more involved than just response
 times for your APIs. 
 You want to assess some of the metrics I mentioned in one of the sections above: CPU, memory, DB Metrics etc.</p>
