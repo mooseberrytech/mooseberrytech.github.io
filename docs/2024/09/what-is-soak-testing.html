@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>What is Soak Testing?</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2024/09/what-is-soak-testing.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction This post is aiming to give you some guidance on when to do soak testing, how to achieve it and how to measure the test...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="What is Soak Testing?"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction This post is aiming to give you some guidance on when to do soak testing, how to achieve it and how to measure the test..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/09/what-is-soak-testing.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-09-19 00:00:00+01:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="testing"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "What is Soak Testing?",
+  "headline": "What is Soak Testing?",
+  "datePublished": "2024-09-19 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2024/09/what-is-soak-testing.html",
+  "description": "Introduction This post is aiming to give you some guidance on when to do soak testing, how to achieve it and how to measure the test..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Testing</span>
+        </span>
+        <h1 class="post-title">What is Soak Testing?</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Thu 19 September 2024">Thu 19 September 2024</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h3>Introduction</h3>
+<p>This post is aiming to give you some guidance on when to do soak testing, how to achieve it and how to measure the test results.</p>
+<h3>What is Soak Testing?</h3>
+<p>When I explain soak testing I like to start with this metaphor: 
+"Imagine that you have a product that has to be water-resistant, and you want to test it. 
+It's not enough to splash it with water from time to time, you actually need to soak it for a while and see what is happening to it. 
+Does it expand? Does it disintegrate?"</p>
+<p>In software, soak testing means you expose your application to production-like load under a prolonged period of time, 
+so you can see the effects on your system. </p>
+<h3>What do you aim to uncover with soak testing?</h3>
+<p>Let's assume that you have a system with the following characteristics:</p>
+<ul>
+<li>it exposes some APIs </li>
+<li>it connects to a database</li>
+<li>it calls external systems </li>
+<li>it runs some tasks in the background </li>
+<li>some tasks access the database</li>
+<li>some tasks are long-run</li>
+</ul>
+<p>Let's assume that you have a soak test that runs for a few hours and does the following:</p>
+<ul>
+<li>puts load on your APIs</li>
+<li>triggers the tasks that are run in the background</li>
+<li>emulates the external systems</li>
+</ul>
+<p>What you want to assess are the following metrics: </p>
+<ul>
+<li>CPU and memory of services</li>
+<li>database metrics - CPU, memory, number of read/write operations, number of new connections</li>
+<li>task metrics - how long they are running for, what is the size of the queue for the tasks </li>
+<li>api metrics - response times, error rates</li>
+</ul>
+<p>You are looking for memory leaks, growing number of connections, bottlenecks in your systems.</p>
+<p>A technique on assessing the metrics will be covered in the section below. </p>
+<h3>Techniques</h3>
+<p>The following techniques, regardless of how you decide to achieve them, work well in practice.</p>
+<h4>1. Create an isolated environment</h4>
+<p>In order to assess the behaviour of the system under test you will need to isolate it from external factors.</p>
+<p><strong>Infrastructure level isolation</strong></p>
+<p>Regardless what infrastructure you use make sure that:</p>
+<ul>
+<li>you allocate enough CPU and memory</li>
+<li>other service runtimes cannot affect your test run</li>
+</ul>
+<p><strong>Logical isolation</strong></p>
+<p>Emulate any external dependencies that you have. Create mock servers where you can simulate appropriate delays
+depending on the SLAs you are expecting from your dependencies.
+This way you will build a deterministic test. </p>
+<h4>2. Build flexible test profiles</h4>
+<p><strong>Consider a data-driven profile</strong></p>
+<p>The most extensible test profiles I used are data driven. 
+For example, if you want to include a new API in your test, add the new API to the profile and the test will pick it up. 
+You could write custom code to load the profile and generate the test code by using a templating mechanism.
+Your profile could be yaml, json, or whatever other form of configuration your prefer.</p>
+<p><strong>Consider how users exercise your system</strong></p>
+<p>When putting together the profile you need to consider how users are accessing your system. 
+Those users can be end users but for back-end systems most likely those users would be other services. 
+Are those services in the same cluster and can access your own service via an internal service discovery mechanism?
+Or are they outside your own ecosystem? This will influence the test because you might want to test via a load balancer for 
+example.</p>
+<h4>2. Have configurable and stackable tests</h4>
+<p>When you have multiple parts of the systems that you are trying to exercise, for example the background tasks as well 
+as some APIs, consider building your tests so that you can exercise the APIs and the tasks separately. 
+This gives you more flexibility when you are trying to simulate various profiles like peak and average load lets say. 
+You could have a test that runs on constant load to trigger the background tasks and in the same time overlap 
+it with tests at various intensity for your APIs.</p>
+<p>One simple way to do this would be to build a test image that you use in two separate modes - api testing and task testing.
+Then you can run this image in two separate modes using two different jobs.</p>
+<h4>3. Use alerting as an evaluation mechanism</h4>
+<p>Let's assume that the aspects of your system that you want to assess after the test are more involved than just response
+times for your APIs. 
+You want to assess some of the metrics I mentioned in one of the sections above: CPU, memory, DB Metrics etc.</p>
+<p>You could look at a dashboard but if you want to assess the results automatically and have a view on how the system
+is doing against your production requirements than you can define the alerting on the metrics that you want to assess 
+and query the alert data for firing alerts. A lot of the alerting systems have an API for you to do that and I 
+included some examples in the tools section below.  </p>
+<h3>Tools</h3>
+<p>Here are some of the tools that I tried in the past and worked well for me:</p>
+<ul>
+<li><a href="https://locust.io/">locust</a> for writing tests</li>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/job/">kubernetes jobs</a> for running different profiles</li>
+<li><a href="https://www.terraform.io/">terraform</a> for provisioning the test infrastructure (easy to spin down the infrastructure as well)</li>
+<li><a href="https://grafana.com/docs/grafana/latest/developers/http_api/alerting_provisioning/">grafana API</a></li>
+<li><a href="https://github.com/prometheus/alertmanager?tab=readme-ov-file#api">alertmanager API</a></li>
+</ul>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=What is Soak Testing?&amp;url=/2024/09/what-is-soak-testing.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/09/what-is-soak-testing.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/09/what-is-soak-testing.html&amp;title=What is Soak Testing?" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=What is Soak Testing?&amp;body=/2024/09/what-is-soak-testing.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
