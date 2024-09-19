@@ -1,5 +1,5 @@
 # Mooseberry Tech Blog
 
-Coming soon
+This is a blog maintained by Adriana Vasiu.
 
 
