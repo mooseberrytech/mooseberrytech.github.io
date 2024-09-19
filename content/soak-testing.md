@@ -85,7 +85,7 @@ Or are they outside your own ecosystem? This will influence the test because you
 example.
 
 
-#### 2. Have configurable and stackable tests 
+#### 3. Have configurable and stackable tests 
 
 When you have multiple parts of the systems that you are trying to exercise, for example the background tasks as well 
 as some APIs, consider building your tests so that you can exercise the APIs and the tasks separately. 
@@ -96,7 +96,7 @@ it with tests at various intensity for your APIs.
 One simple way to do this would be to build a test image that you use in two separate modes - api testing and task testing.
 Then you can run this image in two separate modes using two different jobs.
  
-#### 3. Use alerting as an evaluation mechanism 
+#### 4. Use alerting as an evaluation mechanism 
 
 Let's assume that the aspects of your system that you want to assess after the test are more involved than just response
 times for your APIs. 
