@@ -100,7 +100,7 @@ pre {
 
 code,kbd,pre,samp {
     font-family: monospace,monospace;
-    font-size: 1em
+    font-size: 0.75em
 }
 
 button,input,optgroup,select,textarea {
@@ -567,7 +567,7 @@ button,input,select,textarea {
 }
 
 .post-content {
-    font-size: 1.75em;
+    font-size: 1.5em;
     line-height: 2em
 }
 
@@ -2579,7 +2579,7 @@ button,input,select,textarea {
 .post-excerpt {
     margin: 1em 0 0;
     font-family: var(--font-secondary);
-    font-size: 1.75em;
+    font-size: 1.5em;
     line-height: 2em
 }
 

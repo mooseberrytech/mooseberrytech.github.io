@@ -58,16 +58,13 @@ from pytest_bdd import scenarios, given, when, then, parsers
 
 scenarios("features/demo.feature")
 
-
 @given(parsers.parse("I have a blog with {number_of_posts} posts"))
 def given_blog(number_of_posts):
     ...
 
-
 @when("I publish a new post")
 def when_publish():
     ...
-
 
 @then(parsers.parse("my blog will contain {number_of_posts} posts"))
 @then(parsers.parse("my blog will contain {number_of_posts} post"))
@@ -98,21 +95,17 @@ Here is an example of a fixture passed from one step into the next.
 class Blog:
     posts: int = 0
 
-
 @pytest.fixture
 def blog():
     ...
-
 
 @given(parsers.parse("I have a blog with {number_of_posts} posts"), target_fixture="blog")
 def given_blog(number_of_posts):
     return Blog(posts=int(number_of_posts))
 
-
 @when("I publish a new post")
 def when_publish(blog):
     blog.posts += 1
-
 
 @then(parsers.parse("my blog will contain {number_of_posts} posts"))
 @then(parsers.parse("my blog will contain {number_of_posts} post"))

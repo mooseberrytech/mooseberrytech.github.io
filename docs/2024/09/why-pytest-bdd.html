@@ -216,16 +216,13 @@ Instead, I am going to share what I would like to see in a testing framework and
 
 <span class="n">scenarios</span><span class="p">(</span><span class="s2">&quot;features/demo.feature&quot;</span><span class="p">)</span>
 
-
 <span class="nd">@given</span><span class="p">(</span><span class="n">parsers</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;I have a blog with </span><span class="si">{number_of_posts}</span><span class="s2"> posts&quot;</span><span class="p">))</span>
 <span class="k">def</span> <span class="nf">given_blog</span><span class="p">(</span><span class="n">number_of_posts</span><span class="p">):</span>
     <span class="o">...</span>
 
-
 <span class="nd">@when</span><span class="p">(</span><span class="s2">&quot;I publish a new post&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">when_publish</span><span class="p">():</span>
     <span class="o">...</span>
-
 
 <span class="nd">@then</span><span class="p">(</span><span class="n">parsers</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;my blog will contain </span><span class="si">{number_of_posts}</span><span class="s2"> posts&quot;</span><span class="p">))</span>
 <span class="nd">@then</span><span class="p">(</span><span class="n">parsers</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;my blog will contain </span><span class="si">{number_of_posts}</span><span class="s2"> post&quot;</span><span class="p">))</span>
@@ -249,21 +246,17 @@ Here is an example of a fixture passed from one step into the next.</p>
 <span class="k">class</span> <span class="nc">Blog</span><span class="p">:</span>
     <span class="n">posts</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
 
-
 <span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span>
 <span class="k">def</span> <span class="nf">blog</span><span class="p">():</span>
     <span class="o">...</span>
-
 
 <span class="nd">@given</span><span class="p">(</span><span class="n">parsers</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;I have a blog with </span><span class="si">{number_of_posts}</span><span class="s2"> posts&quot;</span><span class="p">),</span> <span class="n">target_fixture</span><span class="o">=</span><span class="s2">&quot;blog&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">given_blog</span><span class="p">(</span><span class="n">number_of_posts</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">Blog</span><span class="p">(</span><span class="n">posts</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">number_of_posts</span><span class="p">))</span>
 
-
 <span class="nd">@when</span><span class="p">(</span><span class="s2">&quot;I publish a new post&quot;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">when_publish</span><span class="p">(</span><span class="n">blog</span><span class="p">):</span>
     <span class="n">blog</span><span class="o">.</span><span class="n">posts</span> <span class="o">+=</span> <span class="mi">1</span>
-
 
 <span class="nd">@then</span><span class="p">(</span><span class="n">parsers</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;my blog will contain </span><span class="si">{number_of_posts}</span><span class="s2"> posts&quot;</span><span class="p">))</span>
 <span class="nd">@then</span><span class="p">(</span><span class="n">parsers</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="s2">&quot;my blog will contain </span><span class="si">{number_of_posts}</span><span class="s2"> post&quot;</span><span class="p">))</span>
