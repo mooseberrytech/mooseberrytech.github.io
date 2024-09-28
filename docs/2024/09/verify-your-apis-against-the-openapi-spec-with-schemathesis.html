@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Verify your APIs against the OpenAPI spec with Schemathesis</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2024/09/verify-your-apis-against-the-openapi-spec-with-schemathesis.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction This post is about improving the quality of your APIs by verifying if they match the OpenAPI spec. Why Schemathesis? I have...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Verify your APIs against the OpenAPI spec with Schemathesis"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction This post is about improving the quality of your APIs by verifying if they match the OpenAPI spec. Why Schemathesis? I have..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/09/verify-your-apis-against-the-openapi-spec-with-schemathesis.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-09-28 00:00:00+01:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="testing"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Verify your APIs against the OpenAPI spec with Schemathesis",
+  "headline": "Verify your APIs against the OpenAPI spec with Schemathesis",
+  "datePublished": "2024-09-28 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2024/09/verify-your-apis-against-the-openapi-spec-with-schemathesis.html",
+  "description": "Introduction This post is about improving the quality of your APIs by verifying if they match the OpenAPI spec. Why Schemathesis? I have..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Testing</span>
+        </span>
+        <h1 class="post-title">Verify your APIs against the OpenAPI spec with Schemathesis</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Sat 28 September 2024">Sat 28 September 2024</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h3>Introduction</h3>
+<p>This post is about improving the quality of your APIs by verifying if they match the <a href="https://www.openapis.org/">OpenAPI</a> spec. </p>
+<h3>Why Schemathesis?</h3>
+<p>I have been using <a href="https://www.openapis.org/">OpenAPI</a> specs for all the projects I worked on recently.
+I discovered that using an auto generated spec doesn't always guarantee that:</p>
+<ul>
+<li>you have documented all the outputs for your API</li>
+<li>you have handled all the edge cases correctly</li>
+</ul>
+<p>You can rely on the schemas that your framework provides to do data validation.
+But that doesn't mean you have captured all the rules correctly before your data ends up in the db layer. 
+There is an element of human error when making those layers work together.</p>
+<p>I have been using the <a href="https://hypothesis.readthedocs.io/en/latest/">hypothesis</a> python testing library in the past.
+<code>Hypothesis</code> does property based testing by generating arbitrary data that matches the specification of your code 
+and asserting your code works correctly in all cases, not only the cases that you think about. </p>
+<p>The first thing that came into my mind when I thought about validating APIs was to use the same concept, but with the <code>OpenAPI</code> spec as my input. 
+I wanted my spec to be the blueprint for generating test cases automatically.</p>
+<p>That led me straight to <a href="https://schemathesis.readthedocs.io/en/stable/">schemathesis</a>.</p>
+<h3>How to use Schemathesis with FastAPI</h3>
+<p>If you haven't used <a href="https://fastapi.tiangolo.com/">FastAPI</a>, have a look at the documentation, is very easy to setup 
+with a database. For development and learning is easiest if you use a db like <a href="https://www.sqlite.org/">sqlite</a>.</p>
+<p>If you want to see the full example I used for this blog post have a look <a href="https://github.com/mooseberrytech/fast-api-playground">here</a>.</p>
+<h4>Prerequisites</h4>
+<p>You have a database model, a <a href="https://docs.pydantic.dev/latest/">pydantic</a> schema and a route:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Initial code</span>
+<span class="k">class</span> <span class="nc">Tutorial</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Model&quot;&quot;&quot;</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;tutorial&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">topic</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">unique</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">category</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">author</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">,</span> <span class="n">nullable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">TutorialCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pydantic Schema&quot;&quot;&quot;</span>
+    <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">category</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span>
+    <span class="n">author</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/tutorials/&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_tutorial</span><span class="p">(</span><span class="n">tutorial_data</span><span class="p">:</span> <span class="n">TutorialCreate</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Route&quot;&quot;&quot;</span>
+    <span class="n">tutorial</span> <span class="o">=</span> <span class="n">Tutorial</span><span class="p">(</span><span class="o">**</span><span class="n">tutorial_data</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tutorial</span><span class="p">)</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</code></pre></div>
+
+<h4>Install Schemathesis</h4>
+<p>Let's assume that you are using <a href="https://python-poetry.org/">poetry</a> to install your python dependencies:</p>
+<p><code>poetry add schemathesis</code></p>
+<h4>Run schemathesis</h4>
+<p>It requires a running server:
+<code>poetry run fastapi dev src/main.py</code></p>
+<p>You can run <code>schemathesis</code> either from command line or using <code>pytest</code>. I prefer to run via command line because
+I find the output more useful but if you want to customise test cases <code>pytest</code> is a better approach.</p>
+<p><strong>Command line</strong></p>
+<p><code>poetry run schemathesis run http://127.0.0.1:8000/openapi.json --experimental=openapi-3.1  -c all</code></p>
+<p><code>FastApi</code> exposes the spec on the root url, so you can use that as input for your test. </p>
+<p><strong>With pytest</strong></p>
+<p>Assuming you have installed <code>pytest</code> with <code>poetry add pytest</code>, you can start with a very simple test:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">schemathesis</span>
+
+<span class="n">schemathesis</span><span class="o">.</span><span class="n">experimental</span><span class="o">.</span><span class="n">OPEN_API_3_1</span><span class="o">.</span><span class="n">enable</span><span class="p">()</span>
+<span class="n">schema</span> <span class="o">=</span> <span class="n">schemathesis</span><span class="o">.</span><span class="n">from_uri</span><span class="p">(</span><span class="s2">&quot;http://127.0.0.1:8000/openapi.json&quot;</span><span class="p">)</span>
+
+<span class="nd">@schema</span><span class="o">.</span><span class="n">parametrize</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">test_api</span><span class="p">(</span><span class="n">case</span><span class="p">):</span>
+    <span class="k">case</span><span class="o">.</span><span class="n">call_and_validate</span><span class="p">()</span>
+</code></pre></div>
+
+<p>And to run it, use the <code>pytest</code> runner:</p>
+<p><code>poetry run pytest</code></p>
+<h4>Analyse the results</h4>
+<p>With the initial code, when running via command line, you get the following results:</p>
+<div class="highlight"><pre><span></span><code>______________________________________________________________________________________________________________<span class="w"> </span>POST<span class="w"> </span>/tutorials/<span class="w"> </span>
+<span class="m">1</span>.<span class="w"> </span>Test<span class="w"> </span>Case<span class="w"> </span>ID:<span class="w"> </span>s34vdr
+-<span class="w"> </span>Server<span class="w"> </span>error
+-<span class="w"> </span>Undocumented<span class="w"> </span>HTTP<span class="w"> </span>status<span class="w"> </span>code
+<span class="w">    </span>Received:<span class="w"> </span><span class="m">500</span>
+<span class="w">    </span>Documented:<span class="w"> </span><span class="m">200</span>,<span class="w"> </span><span class="m">422</span>
+<span class="o">[</span><span class="m">500</span><span class="o">]</span><span class="w"> </span>Internal<span class="w"> </span>Server<span class="w"> </span>Error:
+<span class="w">    </span><span class="sb">`</span>Internal<span class="w"> </span>Server<span class="w"> </span>Error<span class="sb">`</span>
+Reproduce<span class="w"> </span>with:
+<span class="w">    </span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;author&quot;: &quot;&quot;, &quot;category&quot;: null, &quot;topic&quot;: &quot;&quot;}&#39;</span><span class="w"> </span>http://127.0.0.1:8000/tutorials/
+<span class="o">==================================================================================================================</span><span class="w"> </span>SUMMARY
+Performed<span class="w"> </span>checks:
+<span class="w">    </span>not_a_server_error<span class="w">                              </span><span class="m">0</span><span class="w"> </span>/<span class="w"> </span><span class="m">9</span><span class="w"> </span>passed<span class="w">          </span>FAILED
+<span class="w">    </span>status_code_conformance<span class="w">                         </span><span class="m">0</span><span class="w"> </span>/<span class="w"> </span><span class="m">9</span><span class="w"> </span>passed<span class="w">          </span>FAILED
+<span class="w">    </span>content_type_conformance<span class="w">                        </span><span class="m">9</span><span class="w"> </span>/<span class="w"> </span><span class="m">9</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>response_headers_conformance<span class="w">                    </span><span class="m">9</span><span class="w"> </span>/<span class="w"> </span><span class="m">9</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>response_schema_conformance<span class="w">                     </span><span class="m">9</span><span class="w"> </span>/<span class="w"> </span><span class="m">9</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>negative_data_rejection<span class="w">                         </span><span class="m">9</span><span class="w"> </span>/<span class="w"> </span><span class="m">9</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>ignored_auth<span class="w">                                    </span><span class="m">9</span><span class="w"> </span>/<span class="w"> </span><span class="m">9</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+</code></pre></div>
+
+<p>So at this point you know that the test uncovered some <code>500</code> errors. Something is not handled as expected.
+<code>Schemathesis</code> even offers you a curl command to reproduce the errors and the server logs will give you more information:</p>
+<div class="highlight"><pre><span></span><code>sqlalchemy.exc.IntegrityError:<span class="w"> </span><span class="o">(</span>sqlite3.IntegrityError<span class="o">)</span><span class="w"> </span>NOT<span class="w"> </span>NULL<span class="w"> </span>constraint<span class="w"> </span>failed:<span class="w"> </span>tutorial.category
+<span class="o">[</span>SQL:<span class="w"> </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>tutorial<span class="w"> </span><span class="o">(</span>topic,<span class="w"> </span>category,<span class="w"> </span>author<span class="o">)</span><span class="w"> </span>VALUES<span class="w"> </span><span class="o">(</span>?,<span class="w"> </span>?,<span class="w"> </span>?<span class="o">)]</span>
+
+sqlalchemy.exc.IntegrityError:<span class="w"> </span><span class="o">(</span>sqlite3.IntegrityError<span class="o">)</span><span class="w"> </span>UNIQUE<span class="w"> </span>constraint<span class="w"> </span>failed:<span class="w"> </span>tutorial.topic
+<span class="o">[</span>SQL:<span class="w"> </span>INSERT<span class="w"> </span>INTO<span class="w"> </span>tutorial<span class="w"> </span><span class="o">(</span>topic,<span class="w"> </span>category,<span class="w"> </span>author<span class="o">)</span><span class="w"> </span>VALUES<span class="w"> </span><span class="o">(</span>?,<span class="w"> </span>?,<span class="w"> </span>?<span class="o">)]</span>
+</code></pre></div>
+
+<p>At this point you know that you haven't handled correctly the <code>category</code> being mandatory, and the unicity of the <code>topic</code>.</p>
+<p>A quick fix could look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Handle the mandatory data in your pydantic schema</span>
+<span class="c1"># Pydantic validators will issue a 422 if the schema is not respected</span>
+<span class="k">class</span> <span class="nc">TutorialCreate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">topic</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">category</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">author</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="c1"># Handle the database error in the route</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/tutorials/&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">create_tutorial</span><span class="p">(</span><span class="n">tutorial_data</span><span class="p">:</span> <span class="n">TutorialCreate</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tutorial</span> <span class="o">=</span> <span class="n">Tutorial</span><span class="p">(</span><span class="o">**</span><span class="n">tutorial_data</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tutorial</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">409</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;A tutorial with this topic already exists&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div>
+
+<p>Re-running <code>schemathesis</code> will now produce this:</p>
+<div class="highlight"><pre><span></span><code>______________________________________________________________________________________________________________<span class="w"> </span>POST<span class="w"> </span>/tutorials/<span class="w"> </span>_____
+<span class="m">1</span>.<span class="w"> </span>Test<span class="w"> </span>Case<span class="w"> </span>ID:<span class="w"> </span>kuz17U
+-<span class="w"> </span>Undocumented<span class="w"> </span>HTTP<span class="w"> </span>status<span class="w"> </span>code
+<span class="w">    </span>Received:<span class="w"> </span><span class="m">409</span>
+<span class="w">    </span>Documented:<span class="w"> </span><span class="m">200</span>,<span class="w"> </span><span class="m">422</span>
+<span class="o">[</span><span class="m">409</span><span class="o">]</span><span class="w"> </span>Conflict:
+<span class="w">    </span><span class="sb">`</span><span class="o">{</span><span class="s2">&quot;detail&quot;</span>:<span class="s2">&quot;A tutorial with this topic already exists&quot;</span><span class="o">}</span><span class="sb">`</span>
+Reproduce<span class="w"> </span>with:
+<span class="w">    </span>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;author&quot;: &quot;&quot;, &quot;category&quot;: &quot;&quot;, &quot;topic&quot;: &quot;&quot;}&#39;</span><span class="w"> </span>http://127.0.0.1:8000/tutorials/
+<span class="o">==================================================================================================================</span><span class="w"> </span><span class="nv">SUMMARY</span><span class="w"> </span><span class="o">==========</span>
+Performed<span class="w"> </span>checks:
+<span class="w">    </span>not_a_server_error<span class="w">                              </span><span class="m">5</span><span class="w"> </span>/<span class="w"> </span><span class="m">5</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>status_code_conformance<span class="w">                         </span><span class="m">0</span><span class="w"> </span>/<span class="w"> </span><span class="m">5</span><span class="w"> </span>passed<span class="w">          </span>FAILED
+<span class="w">    </span>content_type_conformance<span class="w">                        </span><span class="m">5</span><span class="w"> </span>/<span class="w"> </span><span class="m">5</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>response_headers_conformance<span class="w">                    </span><span class="m">5</span><span class="w"> </span>/<span class="w"> </span><span class="m">5</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>response_schema_conformance<span class="w">                     </span><span class="m">5</span><span class="w"> </span>/<span class="w"> </span><span class="m">5</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>negative_data_rejection<span class="w">                         </span><span class="m">5</span><span class="w"> </span>/<span class="w"> </span><span class="m">5</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>ignored_auth<span class="w">                                    </span><span class="m">5</span><span class="w"> </span>/<span class="w"> </span><span class="m">5</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+</code></pre></div>
+
+<p>More tests are now passing but the report reflects that even if you handled the db integrity error, you haven't documented it.
+You can add a response code to your route like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Error</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">detail</span><span class="p">:</span> <span class="nb">str</span>
+
+<span class="c1"># Response code is included in the decorator</span>
+<span class="nd">@router</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;/tutorials/&quot;</span><span class="p">,</span> <span class="n">responses</span><span class="o">=</span><span class="p">{</span><span class="mi">409</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">Error</span><span class="p">}})</span>
+<span class="k">def</span> <span class="nf">create_tutorial</span><span class="p">(</span><span class="n">tutorial_data</span><span class="p">:</span> <span class="n">TutorialCreate</span><span class="p">,</span> <span class="n">db</span><span class="p">:</span> <span class="n">Session</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">get_db</span><span class="p">)):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">tutorial</span> <span class="o">=</span> <span class="n">Tutorial</span><span class="p">(</span><span class="o">**</span><span class="n">tutorial_data</span><span class="o">.</span><span class="n">dict</span><span class="p">())</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">tutorial</span><span class="p">)</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+    <span class="k">except</span> <span class="n">exc</span><span class="o">.</span><span class="n">IntegrityError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+            <span class="n">status_code</span><span class="o">=</span><span class="mi">409</span><span class="p">,</span>
+            <span class="n">detail</span><span class="o">=</span><span class="s2">&quot;A tutorial with this topic already exists&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+</code></pre></div>
+
+<p>After a re-run, all test cases should pass. By default, <code>schemathesis</code> generates 100 test cases, but you can adjust that.</p>
+<div class="highlight"><pre><span></span><code>POST<span class="w"> </span>/tutorials/<span class="w"> </span>.<span class="w">                                                                                                                                                                                    </span>
+Performed<span class="w"> </span>checks:
+<span class="w">    </span>not_a_server_error<span class="w">                              </span><span class="m">100</span><span class="w"> </span>/<span class="w"> </span><span class="m">100</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>status_code_conformance<span class="w">                         </span><span class="m">100</span><span class="w"> </span>/<span class="w"> </span><span class="m">100</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>content_type_conformance<span class="w">                        </span><span class="m">100</span><span class="w"> </span>/<span class="w"> </span><span class="m">100</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>response_headers_conformance<span class="w">                    </span><span class="m">100</span><span class="w"> </span>/<span class="w"> </span><span class="m">100</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>response_schema_conformance<span class="w">                     </span><span class="m">100</span><span class="w"> </span>/<span class="w"> </span><span class="m">100</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>negative_data_rejection<span class="w">                         </span><span class="m">100</span><span class="w"> </span>/<span class="w"> </span><span class="m">100</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+<span class="w">    </span>ignored_auth<span class="w">                                    </span><span class="m">100</span><span class="w"> </span>/<span class="w"> </span><span class="m">100</span><span class="w"> </span>passed<span class="w">          </span>PASSED
+</code></pre></div>
+
+<p>That's it! On a very simple example, you have already improved your data validation and documented new error codes.</p>
+<h3>Limitations</h3>
+<p>Just from the first few tries of the library, I noticed a few limitations:</p>
+<ul>
+<li>supporting <code>openapi 3.1</code> is still an experimental feature, which you have to enable</li>
+<li>when running the tests via <code>pytest</code> the summary of the performed checks cannot be enabled. You can set the verbosity of 
+  hypothesis but that displays all tests cases and I find it a bit too verbose. </li>
+</ul>
+<h3>Summary</h3>
+<p>If you are looking for a tool that does schema validation tests than <code>schemathesis</code> is very easy to integrate
+into your development lifecycle. </p>
+<p>It won't replace unit, integration or functional testing, but it's a great addition to your testing strategy 
+when you use <code>OpenApi</code> specs. </p>
+<p>If you are confident that your API does what the spec says, in terms of the shape of the data, then your clients 
+can confidently generate their mocks based on the spec.</p>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Verify your APIs against the OpenAPI spec with Schemathesis&amp;url=/2024/09/verify-your-apis-against-the-openapi-spec-with-schemathesis.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/09/verify-your-apis-against-the-openapi-spec-with-schemathesis.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/09/verify-your-apis-against-the-openapi-spec-with-schemathesis.html&amp;title=Verify your APIs against the OpenAPI spec with Schemathesis" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Verify your APIs against the OpenAPI spec with Schemathesis&amp;body=/2024/09/verify-your-apis-against-the-openapi-spec-with-schemathesis.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
