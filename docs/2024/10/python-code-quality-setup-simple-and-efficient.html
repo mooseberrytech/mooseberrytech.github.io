@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Python Code Quality Setup - Simple and Efficient</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2024/10/python-code-quality-setup-simple-and-efficient.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction This is a concise and opinionated post on code quality for python. It covers the following: what code quality is tools to...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Python Code Quality Setup - Simple and Efficient"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction This is a concise and opinionated post on code quality for python. It covers the following: what code quality is tools to..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/10/python-code-quality-setup-simple-and-efficient.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-10-05 00:00:00+01:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="development"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Python Code Quality Setup - Simple and Efficient",
+  "headline": "Python Code Quality Setup - Simple and Efficient",
+  "datePublished": "2024-10-05 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2024/10/python-code-quality-setup-simple-and-efficient.html",
+  "description": "Introduction This is a concise and opinionated post on code quality for python. It covers the following: what code quality is tools to..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Development</span>
+        </span>
+        <h1 class="post-title">Python Code Quality Setup - Simple and Efficient</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Sat 05 October 2024">Sat 05 October 2024</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h3>Introduction</h3>
+<p>This is a concise and opinionated post on code quality for python. It covers the following:</p>
+<ul>
+<li>what code quality is </li>
+<li>tools to use -&gt; <a href="https://black.readthedocs.io/en/stable/">black</a>, <a href="https://flake8.pycqa.org/en/latest/">flake8</a> and <a href="https://mypy.readthedocs.io/en/stable/">mypy</a></li>
+<li>how to integrate those tools in the software development lifecycle</li>
+</ul>
+<h3>Code quality? As many opinions as stars in the sky.</h3>
+<p>The code quality space is one of the most opinionated technical spaces I know. 
+Why? Because code quality is to some degree subjective. And it means a lot of things!</p>
+<p>In the last few years I joined a lot of projects midway. In more than 50% of the cases, running code quality 
+tools was not part of the development lifecycle. Especially in the beginning, the setup for this is cheap.
+I didn't understand why code quality checks were not in place. 
+But I listened to the teams, and I learnt why. There are a couple of reasons:</p>
+<ul>
+<li>there was no agreement on what code quality actually is -&gt; to avoid disagreement, everyone kind of did what worked for them</li>
+<li>some people thought about code quality as purely stylistic -&gt; this was quickly becoming less of a priority. In the end, this was not affecting production right?</li>
+</ul>
+<h3>How do you come up with a simple yet very efficient setup?</h3>
+<p>When I understood the above, my arguments for introducing code quality tools became convincing and I got agreement on the following.</p>
+<ul>
+<li>At a minimum, code quality means:<ul>
+<li>the code should do what it's supposed to do </li>
+<li>the code is easy to read</li>
+<li>there is no unused code lying around</li>
+</ul>
+</li>
+<li>We will focus on tools that are concerned with more than style. They will detect unused code, unused imports and verify data type mismatches.</li>
+<li>In terms of style, we will use a tool just so that we don't keep re-formatting each other's changes when we do a PR, because
+  each of us have slightly different preference or because our IDE does it for us. One style, no necessary re-formatting.</li>
+</ul>
+<p>Once this agreement was in place, it was very easy to choose the tools and settings and integrate them in the development lifecycle.</p>
+<h3>Tools and Settings</h3>
+<p>Here is a concise list of tools that I used successfully in practice.</p>
+<h4>Black for formatting</h4>
+<p><strong>How to install</strong> </p>
+<p><code>poetry add black</code></p>
+<p><strong>How to set up</strong></p>
+<p><a href="https://black.readthedocs.io/en/stable/">Black</a> has good documentation and can be customised easily with your own settings.
+Here are some basic settings for black, that you can add directly in your project's <code>.toml</code> file:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pyproject.toml</span>
+
+<span class="k">[tool.black]</span>
+<span class="n">line-length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">120</span><span class="w"> </span><span class="c1"># in practice, I find this length working the best. You can work with this in almost any screen size</span>
+<span class="n">exclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;.*(&lt;dir1|dir2&gt;)/.*&quot;</span><span class="w"> </span><span class="c1"># add here auto-generated code and so on, db migrations etc. </span>
+</code></pre></div>
+
+<p><strong>How to run</strong>:</p>
+<p>Let's assume you have this code sample:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">func_not_using_time</span><span class="p">():</span>
+    <span class="n">unused_space</span> <span class="o">=</span> <span class="s2">&quot;space&quot;</span>    <span class="o">+</span> <span class="s2">&quot;more space&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;some single quotes space&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>After you run <code>poetry run black &lt;source directory&gt;</code> you will get this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">func_not_using_time</span><span class="p">():</span>
+    <span class="n">unused_space</span> <span class="o">=</span> <span class="s2">&quot;space&quot;</span> <span class="o">+</span> <span class="s2">&quot;more space&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;some single quotes space&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>All black did in this instance was to remove some spaces and replace quotes with double quotes. 
+It can do much more formatting, depending on the settings and issues encountered. 
+The point here is that <code>black</code> is concerned with style only. 
+It doesn't remove automatically unused imports so there is no risk that it will modify automatically the behaviour of the code.</p>
+<h4>Flake8 for linting</h4>
+<p><strong>How to install</strong></p>
+<p><code>poetry add flake8</code></p>
+<p><strong>How to set up</strong></p>
+<p>In order to make <a href="https://flake8.pycqa.org/en/latest/">flake8</a> work with your <code>pyproject.toml</code> configuration you need to do two steps.</p>
+<p>Add the settings into the <code>pyproject.toml</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="c1"># pyproject.toml</span>
+
+<span class="w">  </span><span class="k">[tool.flake8]</span>
+<span class="w">  </span><span class="n">max-line-length</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">120</span>
+<span class="w">  </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">  </span><span class="n">exclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;.*(&lt;dir1|dir2&gt;)/.*&quot;</span>
+<span class="w">  </span><span class="n">ignore</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;W503,E203&quot;</span>
+</code></pre></div>
+
+<p>Install the <a href="https://pypi.org/project/Flake8-pyproject/">flake8-pyproject</a> plugin by running <code>poetry add flake8-pyproject</code>.
+Without this plugin, settings like <code>max-line-length</code> will not be respected. </p>
+<p>If there are rules that you don't agree with, you can easily add them to the ignore list above.
+For example, my preferred setup is to ignore:</p>
+<ul>
+<li><a href="https://www.flake8rules.com/rules/W503.html">W503</a> - line break occurred before a binary operator.</li>
+<li><a href="https://www.flake8rules.com/rules/E203.html">E203</a> - whitespace before ':' -&gt; this one is a rule that conflicts with the <code>black</code> formatter.
+  I prefer to let the formatter run and ignore this check for the linter.</li>
+</ul>
+<p>For a full list of <code>flake8</code> rules have a look <a href="https://www.flake8rules.com/">here</a>.</p>
+<p><strong>How to run</strong></p>
+<p>Let's assume you have the same simple code sample that was formatted with <code>black</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">time</span>
+
+
+<span class="k">def</span> <span class="nf">func_not_using_time</span><span class="p">():</span>
+    <span class="n">unused_space</span> <span class="o">=</span> <span class="s2">&quot;space&quot;</span> <span class="o">+</span> <span class="s2">&quot;more space&quot;</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;some single quotes space&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>When you run <code>poetry run flake8 --show-source --statistics --count &lt;source directory&gt;</code> you get this result:</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nv">unused_space</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;space&quot;</span><span class="w"> </span>+<span class="w"> </span><span class="s2">&quot;more space&quot;</span>
+<span class="w">    </span>^
+<span class="m">1</span><span class="w">     </span>F401<span class="w"> </span><span class="s1">&#39;time&#39;</span><span class="w"> </span>imported<span class="w"> </span>but<span class="w"> </span>unused
+<span class="m">1</span><span class="w">     </span>F841<span class="w"> </span><span class="nb">local</span><span class="w"> </span>variable<span class="w"> </span><span class="s1">&#39;unused_space&#39;</span><span class="w"> </span>is<span class="w"> </span>assigned<span class="w"> </span>to<span class="w"> </span>but<span class="w"> </span>never<span class="w"> </span>used
+<span class="m">2</span>
+</code></pre></div>
+
+<p>The linter prompts you that you have unused imports and variables, but it doesn't fix anything for you. 
+When you go in and remove the unused code the linter script will just exit with zero. </p>
+<h4>Mypy for static type checking</h4>
+<p><strong>How to install</strong></p>
+<p><code>poetry add mypy</code></p>
+<p><strong>How to set up</strong></p>
+<p><a href="https://mypy.readthedocs.io/en/stable/">Mypy</a> supports <code>.toml</code> configuration as well, so you can add your settings 
+in <code>pyproject.toml</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># pyproject.toml</span>
+<span class="k">[tool.mypy]</span>
+<span class="n">exclude</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;^one</span><span class="se">\\</span><span class="s2">.py$&quot;</span><span class="p">,</span><span class="w">  </span><span class="c1"># TOML&#39;s double-quoted strings require escaping backslashes</span>
+<span class="w">    </span><span class="s1">&#39;two\.pyi$&#39;</span><span class="p">,</span><span class="w">  </span><span class="c1"># but TOML&#39;s single-quoted strings do not</span>
+<span class="w">    </span><span class="s1">&#39;^three\.&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>Have a look <a href="https://mypy.readthedocs.io/en/stable/config_file.html">here</a> at the list of settings that <code>mypy</code> supports.</p>
+<p>By default, <code>mypy</code> enables a lot of <a href="https://mypy.readthedocs.io/en/stable/error_code_list.html">error codes</a>.
+Start from this list and customise any settings if needed. </p>
+<p><strong>How to run</strong></p>
+<p>If you have no <a href="https://docs.python.org/3/library/typing.html">type hints</a> for your code, <code>mypy</code> won't detect any issues, but 
+let's look at a code sample that has some type hints already defined:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="k">def</span> <span class="nf">return_random_number_in_range</span><span class="p">(</span><span class="n">range_threshold</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_range</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    The aim of this function is to return a random number in the range (0, range_threshold)</span>
+<span class="sd">    and not exceed max_range.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">range_threshold</span> <span class="o">&gt;</span> <span class="n">max_range</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">range_threshold</span><span class="p">)</span>
+
+<span class="n">return_random_number_in_range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div>
+
+<p>When you run <code>poetry run mypy &lt;source directory&gt;</code> you will get one error:</p>
+<p><code>mypy_test.py:11: error: Incompatible return value type (got "None", expected "int")</code>.</p>
+<p>So at this point <code>mypy</code> already detected that you are not handling a scenario correctly. 
+If a caller of this function adds the result to another <code>int</code> let's say, they will immediately fail when the function returns <code>None</code>.</p>
+<p>If you call the function with the wrong input: <code>return_random_number_in_range("5")</code> you get an extra error:
+<code>mypy_test.py:16: error: Argument 1 to "return_random_number_in_range" has incompatible type "str"; expected "int"</code>.</p>
+<p>So <code>mypy</code> detects straight away data mismatches, before you even run your code. </p>
+<h3>Development lifecycle</h3>
+<p>Setting up the tools correctly for your use case is very important, but an equally important aspect is the ease of usage
+in your development lifecycle. If you find out about failures too late for example, after your code went through reviews and 
+CI tests, it can be frustrating. </p>
+<p>What worked very well for me is:</p>
+<ul>
+<li>having a <a href="https://git-scm.com/book/ms/v2/Customizing-Git-Git-Hooks">pre-commit hook</a> installed on the local machine
+  that runs the <code>black</code> formatter and then lints and checks the types. </li>
+<li>having the same format, lint and type checks run on the CI, before the tests are run. I use <code>make</code> tasks
+  for all these, and if your CI uses <code>docker</code> you can combine <code>make</code> and <code>docker-compose</code> 
+  with the <a href="https://3musketeers.pages.dev/guide/">3 musketeers</a> approach.</li>
+</ul>
+<h3>Summary</h3>
+<ul>
+<li>Once you agree with your team on what code quality means, setting up the tools is the easy part.
+  Especially if you integrate them in your development lifecycle from the very beginning, they come at a very low cost.</li>
+<li>Code quality tools not only help you prevent bugs, or prompt you on removing unused code,
+  but they also help the team avoiding re-formatting each other's code.</li>
+<li>Having code quality checks in place prevents your code for falling into patterns as described in the <a href="https://en.wikipedia.org/wiki/Broken_windows_theory">broken windows theory</a>.</li>
+</ul>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Python Code Quality Setup - Simple and Efficient&amp;url=/2024/10/python-code-quality-setup-simple-and-efficient.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/10/python-code-quality-setup-simple-and-efficient.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/10/python-code-quality-setup-simple-and-efficient.html&amp;title=Python Code Quality Setup - Simple and Efficient" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Python Code Quality Setup - Simple and Efficient&amp;body=/2024/10/python-code-quality-setup-simple-and-efficient.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
