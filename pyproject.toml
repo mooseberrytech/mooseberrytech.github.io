@@ -2,7 +2,7 @@
 name = "mooseberrytech-github-io"
 version = "0.1.0"
 description = ""
-authors = ["Adriana Vasiu <vasiu.adriana@gmail.com>"]
+authors = ["Adriana Vasiu <adriana@test.com>"]
 readme = "README.md"
 packages = [{include = "mooseberrytech"}]
 
