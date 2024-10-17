@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Being a Software Engineer - Values, Pragmatism and Efficiency</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2024/10/being-a-software-engineer-values-pragmatism-and-efficiency.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="I have been thinking about writing this post for a while, but couldn't find the right words. Writing code comes easier to me. Is all...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Being a Software Engineer - Values, Pragmatism and Efficiency"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="I have been thinking about writing this post for a while, but couldn't find the right words. Writing code comes easier to me. Is all..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/10/being-a-software-engineer-values-pragmatism-and-efficiency.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-10-17 00:00:00+01:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="ways-of-working"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Being a Software Engineer - Values, Pragmatism and Efficiency",
+  "headline": "Being a Software Engineer - Values, Pragmatism and Efficiency",
+  "datePublished": "2024-10-17 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2024/10/being-a-software-engineer-values-pragmatism-and-efficiency.html",
+  "description": "I have been thinking about writing this post for a while, but couldn't find the right words. Writing code comes easier to me. Is all..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Ways-Of-Working</span>
+        </span>
+        <h1 class="post-title">Being a Software Engineer - Values, Pragmatism and Efficiency</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Thu 17 October 2024">Thu 17 October 2024</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <p>I have been thinking about writing this post for a while, but couldn't find the right words. 
+Writing code comes easier to me. Is all about patterns, logic, and inference.</p>
+<p>And yet I decided to write about what it means to me to be a Software Engineer and
+how I balance my own values with pragmatism, in order to be efficient.</p>
+<p>Some of the things I am going to write about I understood quite early in my career. Some of them I resisted to understand and 
+some of them I missed because I was oblivious, inflexible or just didn't want to admit them. 
+It doesn't matter now, I got there in the end!</p>
+<h4>Being replaceable is a good thing</h4>
+<p>Years ago, when I was working as a Principal Engineer, my mentor told me something on these lines:
+If you are doing your job right, your team doesn't need you.  </p>
+<p>It was counter-intuitive for me at that time - so if the team doesn't need me how am I adding value? 
+It took me a while to realise that all the value I am adding is actually to get the team to that point, when they don't need me 
+at all. When I am completely replaceable.
+That also means that I have to constantly find new ways to add value, and sometimes that means moving on.</p>
+<p>That's a principle that I always stick to, and it reflects in my day-to-day job because:</p>
+<ul>
+<li>I always discuss issues and findings on public channels - my knowledge is valuable when is shared</li>
+<li>I document every important decision I make through <a href="https://adr.github.io/">ADRs</a></li>
+<li>I prioritize readability of my code</li>
+<li>Everything that I do can be picked up by a member of my team</li>
+</ul>
+<p>In the current tech landscape where everyone talks about being replaced by AI, or cheaper workforce, I am very relaxed about this.</p>
+<p>Being replaceable is not a bad thing, is just time to move on to something where you can add more value and you can employ
+your skills and creativity. </p>
+<p>There is always work to do and problems to be solved!</p>
+<h4>Your software is good only if it adds value to the business</h4>
+<p>As Software Engineers, we love a good problem. And more than that, we love it when we find a clean and scalable solution. 
+And sometimes we put our heads down and dive so deep into it that by the time we get back up to get some air, we lost 
+perspective, we forgot what we were sailing towards. </p>
+<p>You should always sail towards the point where the business wants to be. 
+Your technical expertise has value only if you can provide a solution to a business problem. 
+Your code could be beautiful, extensible and have all the capabilities that you dreamt off. 
+But sadly, that is not good enough. 
+Truly amazing software is actually the minimal software that does all the job required by the business. </p>
+<p>And if you are not pragmatic about this, you won't be efficient for the business that pays you.</p>
+<h4>Before accepting solutions, ask what the problem is</h4>
+<p>It's tempting, especially after hour long meetings with the product owners, to take a solution disguised as a requirement 
+straight to heart. But when you are in the middle of writing the code for it you'll realise your mistake. 
+You'll find that there are other solutions that could be simpler, and you will probably even question yourself if 
+you fully understand the problem. </p>
+<p>Go back to the product owners, kindly ask them again to re-iterate the problem that they are having and maybe mention
+to them that if they are expecting you to just implement the solution they thought through, than maybe you are massively 
+overpaid. 
+Ok, maybe this last part needs to be mentioned lightly, as a half-joke. But in your heart, you know that is true.</p>
+<h4>Pragmatism is a key skill for moving forward</h4>
+<p>Knowing the right thing to do when building software is an essential skill. We are all working on that:</p>
+<ul>
+<li>we gain proficiency in multiple software languages</li>
+<li>we learn best testing practices</li>
+<li>we automate everything that we can find</li>
+<li>we become proficient in software development lifecycle </li>
+<li>we do platform engineering and think about platform development lifecycle</li>
+<li>we constantly improve our ways of working</li>
+</ul>
+<p>But when we know what good looks like, and yet we don't have the time to implement that, we face a problem. 
+It feels like we are compromising on our own personal values to get something out there that the business needs. 
+And we continue to feel bad for it. </p>
+<p>But it shouldn't always be this way. Is ok to be pragmatic. Is not always possible to do everything by the book. </p>
+<p>I sometimes go with the 20/80 rule: I make it clear to the business that I can get them 80% of the value
+with 20% of the efforts but I am also very thorough in documenting assumptions, risks and basically everything that 
+was missed in the 20%. 
+And sometimes that is ok. Maybe you don't get to automate to 100%, but you make some calculated risks on what couldn't be automated,
+or tested, or covered.</p>
+<p>In my opinion you should always be prepared to present options in terms of value, risks and assumptions. 
+Once you do that, the business can move forward and you can move forward.</p>
+<h4>Things are not as personal as you think</h4>
+<p>I saved this as the last point, not because is not important, is actually because I want this to be the last thing 
+on your mind when you read this post. </p>
+<p>I did pair programming for years and in the beginning I was shy and stressed about it. I did more typos that I would want.
+I felt like I was personally assessed, or judged. I focused on the things I didn't know, rather than the ones I know.</p>
+<p>It took me a while to realise that I was just not that important. The colleagues that paired with me were
+focused on getting a solution out there, that works well, and far less focused on what I agonised about. 
+I had to work hard with myself to comprehend that the whole exercise was not about me! It was not about my typing 
+or programming skills! It was about working together to find the way to resolve a problem. 
+And once I realised that, I took myself out of the equation and I focused on what's important. </p>
+<p>I actually apply this principle to this day and is the most important thing I grasped as a Software Engineer.
+I am totally pragmatic about it - nothing is about me, let's focus on the problem!</p>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Being a Software Engineer - Values, Pragmatism and Efficiency&amp;url=/2024/10/being-a-software-engineer-values-pragmatism-and-efficiency.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/10/being-a-software-engineer-values-pragmatism-and-efficiency.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/10/being-a-software-engineer-values-pragmatism-and-efficiency.html&amp;title=Being a Software Engineer - Values, Pragmatism and Efficiency" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Being a Software Engineer - Values, Pragmatism and Efficiency&amp;body=/2024/10/being-a-software-engineer-values-pragmatism-and-efficiency.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>

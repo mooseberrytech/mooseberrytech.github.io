@@ -22,7 +22,8 @@ AUTHOR_FEED_RSS = None
 MENUITEMS = (('Home', '/'),
              ('Author', '/author/adriana-vasiu/'),
              ('Testing', '/category/testing/'),
-             ('Development', '/category/development/'),)
+             ('Development', '/category/development/'),
+             ('Ways of Working', '/category/ways-of-working/'),)
 
 # Blogroll
 LINKS = ()
