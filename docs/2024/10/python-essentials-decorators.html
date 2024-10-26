@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Python Essentials - Decorators</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2024/10/python-essentials-decorators.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction Decorators are a tool for making your python code more readable, and it also helps you to stick to the DRY principle....">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Python Essentials - Decorators"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction Decorators are a tool for making your python code more readable, and it also helps you to stick to the DRY principle...."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/10/python-essentials-decorators.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-10-26 00:00:00+01:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="development"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Python Essentials - Decorators",
+  "headline": "Python Essentials - Decorators",
+  "datePublished": "2024-10-26 00:00:00+01:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2024/10/python-essentials-decorators.html",
+  "description": "Introduction Decorators are a tool for making your python code more readable, and it also helps you to stick to the DRY principle...."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Development</span>
+        </span>
+        <h1 class="post-title">Python Essentials - Decorators</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Sat 26 October 2024">Sat 26 October 2024</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h3>Introduction</h3>
+<p>Decorators are a tool for making your python code more readable, and it also helps you to stick to the DRY principle. 
+Whether you add your own, or you are using a decorator provided by a library or framework, understanding how decorating works in python 
+is an essential tool in your toolbox. </p>
+<h3>What are decorators?</h3>
+<p>The simplest definition I could find is when we look at the decorators applied to functions:</p>
+<p><em>A decorator is a function that wraps another function, and it modifies its behaviour.</em></p>
+<p>Here is a very simple example:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Something important is about to happen&quot;</span><span class="p">)</span>
+        <span class="n">func</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">wrapper</span>
+
+<span class="k">def</span> <span class="nf">my_example_function</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I am doing something important&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>In the example above you have:</p>
+<ul>
+<li>a function that does something</li>
+<li>another function that uses the <code>my_example_function</code> as an argument, and does something to it. In this case, it prints 
+  something before calling the function. This is the decorator. </li>
+</ul>
+<p>When you examine the results in REPL, this is what you get:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span><span class="nv">decorated_function</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>my_decorator<span class="o">(</span>my_example_function<span class="o">)</span>
+&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>decorated_function<span class="o">()</span>
+Something<span class="w"> </span>important<span class="w"> </span>is<span class="w"> </span>about<span class="w"> </span>to<span class="w"> </span>happen
+I<span class="w"> </span>am<span class="w"> </span>doing<span class="w"> </span>something<span class="w"> </span>important
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<p>There is one thing to notice here, the decorator itself returns a function, so you do need to call it to get the result. 
+If you look at the actual <code>decorated_function</code> object, you can see that is a function:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>decorated_function
+&lt;<span class="k">function</span><span class="w"> </span>my_decorator.&lt;locals&gt;.wrapper<span class="w"> </span>at<span class="w"> </span>0x102abb560&gt;
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<p>A function can be used as an argument to another function because according to the <a href="https://docs.python.org/3/reference/datamodel.html#objects-values-and-types">python data model</a>
+any data in a python program is an object, including the function itself. </p>
+<p>Modifying a function before it's even invoked is great, but it would be even better if you were able to invoke it directly, and have another way to "decorate" it. 
+Imagine you have a function that is called a lot in your codebase, and you want to add some extra logging before it's called, 
+without changing the calling code.</p>
+<p>This is where the following syntactic sugar comes into play: </p>
+<div class="highlight"><pre><span></span><code><span class="nd">@my_decorator</span>
+<span class="k">def</span> <span class="nf">my_example_function</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I am doing something important&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Then you can invoke the function directly and get the same result:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>my_example_function<span class="o">()</span>
+Something<span class="w"> </span>important<span class="w"> </span>is<span class="w"> </span>about<span class="w"> </span>to<span class="w"> </span>happen
+I<span class="w"> </span>am<span class="w"> </span>doing<span class="w"> </span>something<span class="w"> </span>important
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<p>You would have seen the syntax above in a lot of the frameworks and libraries you are using. It's a heavily used 
+feature in the python ecosystem.</p>
+<h3>How to write your own decorators</h3>
+<h4>Simple decorators</h4>
+<p>I included this decorator example in <a href="https://mooseberrytech.co.uk/2024/10/python-essentials-repl.html">one of my previous posts on REPL</a>
+because it's so simple to implement and very useful when you want to measure the time spent on an activity that you don't have granular metrics for.
+Or you might want to time a test, or debug the time it takes to make an external call because your client library
+doesn't support that already.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper_timer</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+        <span class="n">run_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> runs in </span><span class="si">{</span><span class="n">run_time</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> secs&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span>
+    <span class="k">return</span> <span class="n">wrapper_timer</span>
+
+<span class="nd">@timer</span>
+<span class="k">def</span> <span class="nf">my_time_consuming_func</span><span class="p">(</span><span class="n">max_range</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_range</span><span class="p">)])</span>
+</code></pre></div>
+
+<p>This is the output of the function:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>my_time_consuming_func<span class="o">(</span>100_000<span class="o">)</span>
+my_time_consuming_func<span class="w"> </span>run<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.0071<span class="w"> </span>secs
+<span class="m">4999950000</span>
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<p>One thing to notice in this decorator is that I am using <code>@functools.wraps(func)</code> to decorate the <code>wrapper_timer</code>.
+This is a decorator factory from the <a href="https://docs.python.org/3/library/functools.html#">functools</a> module that at a minimum,
+helps you preserve the function name. </p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span><span class="c1"># with @functools.wraps(func)</span>
+&gt;&gt;&gt;<span class="w"> </span>my_time_consuming_func.__name__
+<span class="s1">&#39;my_time_consuming_func&#39;</span>
+&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span><span class="c1"># without @functools.wraps(func)</span>
+&gt;&gt;&gt;<span class="w"> </span>my_time_consuming_func.__name__
+<span class="s1">&#39;wrapper_timer&#39;</span>
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<h4>Stacked decorators</h4>
+<p>Let's assume that our time-consuming function above does a bit more. It throws a <code>ValueError</code> for some of the input:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@timer</span>
+<span class="k">def</span> <span class="nf">my_time_consuming_func</span><span class="p">(</span><span class="n">max_range</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">max_range</span> <span class="o">&gt;</span> <span class="mi">100_000</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_range</span><span class="p">)])</span>
+</code></pre></div>
+
+<p>It would be useful to have a decorator that does something when a <code>ValueError</code> occurs. For the purpose of illustration,
+to keep it simple, the error handler just catches the error and prints something.
+So let's define another decorator that does that: </p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">error_handler</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">wrapper_error_handler</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;An error occurred&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">wrapper_error_handler</span>
+</code></pre></div>
+
+<p>What happens if you "stack" the decorators? Let's add the <code>@error_handler</code> to the function:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@error_handler</span>
+<span class="nd">@timer</span>
+<span class="k">def</span> <span class="nf">my_time_consuming_func</span><span class="p">(</span><span class="n">max_range</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">max_range</span> <span class="o">&gt;</span> <span class="mi">100_000</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_range</span><span class="p">)])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>my_time_consuming_func<span class="o">(</span>100_001<span class="o">)</span>
+An<span class="w"> </span>error<span class="w"> </span>occurred
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<p>Ok, so the <code>error_handler</code> is applied, but the timer doesn't work. What happened there? 
+The order of decorators is important. Python will execute the closest decorator to the function first, in this case <code>timer</code>. 
+That means that when the <code>ValueError</code> occurs, the execution is interrupted and the time will not be printed.
+Then the <code>error_handler</code> is run and prints that an error occurred.</p>
+<p>Let's change the order of the decorators:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@timer</span>
+<span class="nd">@error_handler</span>
+<span class="k">def</span> <span class="nf">my_time_consuming_func</span><span class="p">(</span><span class="n">max_range</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">max_range</span> <span class="o">&gt;</span> <span class="mi">100_000</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_range</span><span class="p">)])</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>my_time_consuming_func<span class="o">(</span>100_001<span class="o">)</span>
+An<span class="w"> </span>error<span class="w"> </span>occurred
+my_time_consuming_func<span class="w"> </span>runs<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.0002<span class="w"> </span>secs
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<p>Because we handled the error first, the timer works for the <code>ValueError</code> scenario as well. This is very powerful in practice.
+You can follow the single responsibility principle for your code by separating different concerns in different decorators, 
+tested independently. Then all you need to do is "stack" them.</p>
+<h4>Decorators with arguments</h4>
+<p>Sometimes you will encounter the situation when you need to pass an argument to the decorator itself, to make it more flexible.
+Let's take for example the <code>timer</code> decorator above and invent the requirement that sometimes you need to time the function in milliseconds
+rather than seconds. Something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@flexible_timer</span><span class="p">(</span><span class="n">milliseconds</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">my_time_consuming_func</span><span class="p">(</span><span class="n">max_range</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">max_range</span> <span class="o">&gt;</span> <span class="mi">100_000</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_range</span><span class="p">)])</span>
+</code></pre></div>
+
+<p>You know from what you have seen so far, that a decorator accepts a function and returns a function, so how does the argument
+now come into play?
+You need to define a new function that accepts the <code>milliseconds</code> argument and returns a decorator right? 
+Another level of nesting. Something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">flexible_timer</span><span class="p">(</span><span class="n">milliseconds</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">my_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="o">...</span>
+    <span class="k">return</span> <span class="n">my_decorator</span>
+</code></pre></div>
+
+<p>Now you update the code above and replace <code>my_decorator</code>, with the <code>timer</code> decorator that also accounts for <code>milliseconds</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">flexible_timer</span><span class="p">(</span><span class="n">milliseconds</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">timer</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">wrapper_timer</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">end_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+            <span class="n">run_time</span> <span class="o">=</span> <span class="n">end_time</span> <span class="o">-</span> <span class="n">start_time</span>
+            <span class="c1"># This is the new logic that accounts for the milliseconds parameter</span>
+            <span class="k">if</span> <span class="n">milliseconds</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> runs in </span><span class="si">{</span><span class="n">run_time</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> milliseconds&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> runs in </span><span class="si">{</span><span class="n">run_time</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2"> secs&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="k">return</span> <span class="n">wrapper_timer</span>
+    <span class="k">return</span> <span class="n">timer</span>
+</code></pre></div>
+
+<p>Let's look at the result when the <code>flexible_timer</code> is applied with argument <code>milliseconds=True</code> as illustrated above:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>my_time_consuming_func<span class="o">(</span>10_000<span class="o">)</span>
+my_time_consuming_func<span class="w"> </span>runs<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span>.4984<span class="w"> </span>milliseconds
+<span class="m">49995000</span>
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<p>There are a few things happening here: </p>
+<ul>
+<li>at the first glance, it seems like the <code>milliseconds</code> is not used in the <code>flexible_timer</code> function itself. 
+  Under the hood, python is using <a href="https://en.wikipedia.org/wiki/Closure_(computer_programming)">closures</a> to store its value
+  so that the inner wrapper can use it.</li>
+<li>since the <code>timer</code> decorator is an inner function, you won't be able to use it directly anymore</li>
+<li>the same technique of defining an inner function that returns a function is used here as well, the only difference
+  is that the <code>timer</code> function is a decorator itself. </li>
+</ul>
+<h4>Class decorators</h4>
+<p>Yes, you can apply decorators to a whole class. Your intuition would probably tell you that decorating a whole class
+will decorate every method in that class, but that's not the case. 
+The decorator applies to the instantiation process only. Let's apply the <code>timer</code> to the following simplistic class:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@timer</span>
+<span class="k">class</span> <span class="nc">MyTimeConsumingClass</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_range</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;I am creating an instance here&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_range</span> <span class="o">=</span> <span class="n">max_range</span>
+
+    <span class="k">def</span> <span class="nf">my_time_consuming_func</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">([</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_range</span><span class="p">)])</span>
+</code></pre></div>
+
+<p>And let's assess the decorated result:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span><span class="nv">decorated_result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>MyTimeConsumingClass<span class="o">(</span>10_000<span class="o">)</span>
+I<span class="w"> </span>am<span class="w"> </span>creating<span class="w"> </span>an<span class="w"> </span>instance<span class="w"> </span>here
+MyTimeConsumingClass<span class="w"> </span>runs<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">0</span>.0001<span class="w"> </span>secs
+&gt;&gt;&gt;<span class="w"> </span>
+</code></pre></div>
+
+<p>A good example of a class decorator that is used often in practice is the <code>@dataclass</code> decorator that at a minimum, 
+generates an <code>__init__</code> method using type annotations:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>from<span class="w"> </span>dataclasses<span class="w"> </span>import<span class="w"> </span>dataclass
+&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span>@dataclass
+...<span class="w"> </span>class<span class="w"> </span>PersonalDetails:
+...<span class="w">     </span>name:<span class="w"> </span>str
+...<span class="w">     </span>age:<span class="w"> </span>int
+...<span class="w"> </span>
+&gt;&gt;&gt;<span class="w"> </span>PersonalDetails<span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;Moose&quot;</span>,<span class="w"> </span><span class="nv">age</span><span class="o">=</span><span class="m">5</span><span class="o">)</span>
+PersonalDetails<span class="o">(</span><span class="nv">name</span><span class="o">=</span><span class="s1">&#39;Moose&#39;</span>,<span class="w"> </span><span class="nv">age</span><span class="o">=</span><span class="m">5</span><span class="o">)</span>
+&gt;&gt;&gt;
+</code></pre></div>
+
+<p>Another popular example on when a class decorator would be useful is when you want to create a singleton.</p>
+<h3>Summary</h3>
+<ul>
+<li>Decorators help with the DRY and Single Responsibility Principle -&gt; they make your code more readable, less repeatable, easier to test.</li>
+<li>Understanding how decorators work and their order of execution is important to be able to debug and understand code in libraries and frameworks 
+  that you are using. Decorators are heavily used in the python ecosystem.</li>
+<li>Decorators can be really powerful, especially when you "stack" them .</li>
+<li>The <code>functools</code> module is great to help you build your own decorators.</li>
+<li>Function decorators are the most popular but class decorators can prove very useful as well -&gt; dataclasses and singletons are popular examples.</li>
+</ul>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Python Essentials - Decorators&amp;url=/2024/10/python-essentials-decorators.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/10/python-essentials-decorators.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/10/python-essentials-decorators.html&amp;title=Python Essentials - Decorators" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Python Essentials - Decorators&amp;body=/2024/10/python-essentials-decorators.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
