@@ -23,6 +23,7 @@ MENUITEMS = (('Home', '/'),
              ('Author', '/author/adriana-vasiu/'),
              ('Testing', '/category/testing/'),
              ('Development', '/category/development/'),
+             ('Instrumentation', '/category/instrumentation/'),
              ('Ways of Working', '/category/ways-of-working/'),)
 
 # Blogroll

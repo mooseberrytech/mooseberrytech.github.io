@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Instrumentation Essentials - Correlated Logs in Django</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2024/10/instrumentation-essentials-correlated-logs-in-django.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction This is a post about a simple technique to add a correlation id in the django logs, when using structlog. What do you need...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Instrumentation Essentials - Correlated Logs in Django"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction This is a post about a simple technique to add a correlation id in the django logs, when using structlog. What do you need..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/10/instrumentation-essentials-correlated-logs-in-django.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-10-28 00:00:00+00:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="instrumentation"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Instrumentation Essentials - Correlated Logs in Django",
+  "headline": "Instrumentation Essentials - Correlated Logs in Django",
+  "datePublished": "2024-10-28 00:00:00+00:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2024/10/instrumentation-essentials-correlated-logs-in-django.html",
+  "description": "Introduction This is a post about a simple technique to add a correlation id in the django logs, when using structlog. What do you need..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Instrumentation " role="presentation"><a href="/category/instrumentation/"><span>Instrumentation</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Instrumentation</span>
+        </span>
+        <h1 class="post-title">Instrumentation Essentials - Correlated Logs in Django</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Mon 28 October 2024">Mon 28 October 2024</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h3>Introduction</h3>
+<p>This is a post about a simple technique to add a correlation id in the <code>django</code> logs, when using <code>structlog</code>.</p>
+<h3>What do you need to install?</h3>
+<p>This post is assuming that you have the following already setup:</p>
+<ul>
+<li><a href="https://python-poetry.org/">poetry</a> for installing your dependencies</li>
+<li><a href="https://www.djangoproject.com/">django</a> as your web framework</li>
+</ul>
+<p>Add the following dependencies to your project:</p>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>add<span class="w"> </span>django-structlog<span class="w"> </span>django-guid
+</code></pre></div>
+
+<h3>How to configure the logging with correlation id</h3>
+<p>Both <a href="https://django-structlog.readthedocs.io/en/latest/">django-structlog</a> and <a href="https://django-guid.readthedocs.io/en/latest/">django-guid</a>
+can be used as <a href="https://docs.djangoproject.com/en/5.1/topics/http/middleware/">django middlewares</a>.
+Basically, they hook into the request/response processing.</p>
+<p>There are a few things that you need to set up. </p>
+<h4>1. Configure your installed apps</h4>
+<p>In your <a href="https://docs.djangoproject.com/en/5.1/ref/settings/">django settings</a>, update your list of installed apps:</p>
+<div class="highlight"><pre><span></span><code><span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># more apps here ...</span>
+    <span class="s2">&quot;django_structlog&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;django_guid&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<h4>2. Configure your middlewares</h4>
+<p>Add the middlewares to your existing middleware configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="n">MIDDLEWARE</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># more middlewares here ...</span>
+    <span class="s2">&quot;django_guid.middleware.guid_middleware&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;django_structlog.middlewares.RequestMiddleware&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<h4>3. Configure django-guid</h4>
+<p>Add the following configuration for the <code>django_guid</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">DJANGO_GUID</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;GUID_HEADER_NAME&quot;</span><span class="p">:</span> <span class="s2">&quot;X-Correlation-ID&quot;</span><span class="p">,</span> 
+    <span class="o">...</span>
+    <span class="s2">&quot;INTEGRATIONS&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">CeleryIntegration</span><span class="p">(</span>
+            <span class="n">use_django_logging</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">log_parent</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Those are some basic settings for the <code>django-guid</code> library. Things to note here:</p>
+<ul>
+<li>when set in a request, the <code>X-Correlation-ID</code> header will be used to set a <code>guid</code> in the context of that request</li>
+<li>the library supports passing the <code>guid</code> that exists in the context to a celery task and celery sub-task</li>
+</ul>
+<p>With these sort of settings you have the ability to benefit from having a <code>guid</code> in the context by simply
+setting the <code>X-Correlation-ID</code> header. If it's not set, the library will generate a <code>guid</code> for you. </p>
+<h4>4. Setup your logging with django-structlog</h4>
+<p>At the very minimum, you will have something like this in your settings:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">structlog</span>
+
+<span class="n">LOGGING</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="s2">&quot;disable_existing_loggers&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;formatters&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># let&#39;s assume you want your logs to be in json</span>
+        <span class="s2">&quot;json_formatter&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;()&quot;</span><span class="p">:</span> <span class="n">structlog</span><span class="o">.</span><span class="n">stdlib</span><span class="o">.</span><span class="n">ProcessorFormatter</span><span class="p">,</span>
+            <span class="s2">&quot;processor&quot;</span><span class="p">:</span> <span class="n">structlog</span><span class="o">.</span><span class="n">processors</span><span class="o">.</span><span class="n">JSONRenderer</span><span class="p">(),</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;handlers&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># just a console handler for now</span>
+        <span class="s2">&quot;console&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;logging.StreamHandler&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;formatter&quot;</span><span class="p">:</span> <span class="s2">&quot;json_formatter&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="s2">&quot;loggers&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="c1"># you will most likely have more loggers here</span>
+        <span class="s2">&quot;django_structlog&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;level&quot;</span><span class="p">:</span> <span class="s2">&quot;INFO&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>You will also have some <code>structlog</code> processors configured:</p>
+<div class="highlight"><pre><span></span><code><span class="n">structlog</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>
+    <span class="n">processors</span><span class="o">=</span><span class="p">[</span>
+        <span class="n">structlog</span><span class="o">.</span><span class="n">contextvars</span><span class="o">.</span><span class="n">merge_contextvars</span><span class="p">,</span>
+        <span class="n">structlog</span><span class="o">.</span><span class="n">processors</span><span class="o">.</span><span class="n">TimeStamper</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="s2">&quot;iso&quot;</span><span class="p">),</span>
+        <span class="c1"># loads more processors here, whatever you choose to expose in logs</span>
+    <span class="p">],</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<h4>5. Create a structlog processor and update your structlog processor list</h4>
+<p>So you have a basic logging and structlog configuration above, and you have the ability to set a <code>guid</code> in the context of 
+your requests that gets passed down to celery tasks for example, or other requests. </p>
+<p>Let's expose this in the logs by creating a processor and adding it to your list.</p>
+<p>Create a simple processor:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django_guid</span> <span class="kn">import</span> <span class="n">get_guid</span>
+<span class="k">def</span> <span class="nf">add_correlation_id_processor</span><span class="p">(</span><span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">,</span> <span class="n">method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">event_dict</span><span class="p">):</span>
+    <span class="c1"># Adds the contextual guid populated by the django-guid into your json log</span>
+    <span class="n">event_dict</span><span class="p">[</span><span class="s2">&quot;correlation_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_guid</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">event_dict</span>
+</code></pre></div>
+
+<p>Add the processor to your list of processors in your django settings:</p>
+<div class="highlight"><pre><span></span><code><span class="n">structlog</span><span class="o">.</span><span class="n">configure</span><span class="p">(</span>
+    <span class="n">processors</span><span class="o">=</span><span class="p">[</span>
+        <span class="o">...</span>
+        <span class="n">add_correlation_id_processor</span><span class="p">,</span>
+        <span class="o">...</span>
+    <span class="p">],</span>
+    <span class="o">...</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>And that's it! Next time you do a request  with the <code>X-Correlation-ID</code> header set, the <code>correlation_id</code> will appear in your logs. 
+Your request log for example will look something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;GET some/url&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;correlation_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;some-guid-you-generated&gt;&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="err">...</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<p>Any logs you will generate in the context of that request, including any celery logs for tasks you will invoke, will contain 
+the <code>correlation_id</code>. 
+If for some reason you need to reset the correlation id, just use the <code>django_guid.set_guid</code> functionality, this will 
+reset the context and the following log statements in that context will be updated.</p>
+<h3>Summary</h3>
+<p>By using <code>django-structlog</code> processors in combination with the contextual <code>guid</code> that can retrieved using <code>django-guid.get_guid</code>
+you can easily add a correlation id that can be very useful, especially when you want to track an entire process, that
+might include celery tasks. </p>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Instrumentation Essentials - Correlated Logs in Django&amp;url=/2024/10/instrumentation-essentials-correlated-logs-in-django.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/10/instrumentation-essentials-correlated-logs-in-django.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/10/instrumentation-essentials-correlated-logs-in-django.html&amp;title=Instrumentation Essentials - Correlated Logs in Django" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Instrumentation Essentials - Correlated Logs in Django&amp;body=/2024/10/instrumentation-essentials-correlated-logs-in-django.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
