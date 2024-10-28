@@ -172,7 +172,7 @@ reset the context and the following log statements in that context will be updat
 
 ### Summary
 
-By using `django-structlog` processors in combination with the contextual `guid` that can retrieved using `django-guid.get_guid`
+By using `django-structlog` processors in combination with the contextual `guid` that can be retrieved using `django-guid.get_guid`
 you can easily add a correlation id that can be very useful, especially when you want to track an entire process, that
 might include celery tasks. 
 
