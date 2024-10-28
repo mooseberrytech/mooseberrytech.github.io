@@ -54,7 +54,7 @@ MIDDLEWARE = [
 
 #### 3. Configure django-guid
 
-Add the following configuration for the `django_guid`:
+Add the following configuration for the `django-guid`:
 
 ```python
 DJANGO_GUID = {
