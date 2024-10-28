@@ -310,7 +310,7 @@ the <code>correlation_id</code>.
 If for some reason you need to reset the correlation id, just use the <code>django_guid.set_guid</code> functionality, this will 
 reset the context and the following log statements in that context will be updated.</p>
 <h3>Summary</h3>
-<p>By using <code>django-structlog</code> processors in combination with the contextual <code>guid</code> that can retrieved using <code>django-guid.get_guid</code>
+<p>By using <code>django-structlog</code> processors in combination with the contextual <code>guid</code> that can be retrieved using <code>django-guid.get_guid</code>
 you can easily add a correlation id that can be very useful, especially when you want to track an entire process, that
 might include celery tasks. </p>
           </section>
