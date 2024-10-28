@@ -134,7 +134,7 @@ Create a simple processor:
 
 ```python
 from django_guid import get_guid
-def add_correlation_id_processor(logger: logging.Logger, method_name: str, event_dict):
+def add_correlation_id_processor(logger: logging.Logger, method_name, event_dict):
     # Adds the contextual guid populated by the django-guid into your json log
     event_dict["correlation_id"] = get_guid()
 

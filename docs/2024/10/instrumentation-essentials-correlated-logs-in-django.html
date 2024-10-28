@@ -278,7 +278,7 @@ your requests that gets passed down to celery tasks for example, or other reques
 <p>Let's expose this in the logs by creating a processor and adding it to your list.</p>
 <p>Create a simple processor:</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">django_guid</span> <span class="kn">import</span> <span class="n">get_guid</span>
-<span class="k">def</span> <span class="nf">add_correlation_id_processor</span><span class="p">(</span><span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">,</span> <span class="n">method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">event_dict</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">add_correlation_id_processor</span><span class="p">(</span><span class="n">logger</span><span class="p">:</span> <span class="n">logging</span><span class="o">.</span><span class="n">Logger</span><span class="p">,</span> <span class="n">method_name</span><span class="p">,</span> <span class="n">event_dict</span><span class="p">):</span>
     <span class="c1"># Adds the contextual guid populated by the django-guid into your json log</span>
     <span class="n">event_dict</span><span class="p">[</span><span class="s2">&quot;correlation_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_guid</span><span class="p">()</span>
 
