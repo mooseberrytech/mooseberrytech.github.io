@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Build a simple CLI in Python with Typer</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2024/11/build-a-simple-cli-in-python-with-typer.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction This post takes you through how to build a simple CLI tool using typer. Over the years, I built CLI tools with click,...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Build a simple CLI in Python with Typer"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction This post takes you through how to build a simple CLI tool using typer. Over the years, I built CLI tools with click,..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/11/build-a-simple-cli-in-python-with-typer.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-11-14 00:00:00+00:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="development"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Build a simple CLI in Python with Typer",
+  "headline": "Build a simple CLI in Python with Typer",
+  "datePublished": "2024-11-14 00:00:00+00:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2024/11/build-a-simple-cli-in-python-with-typer.html",
+  "description": "Introduction This post takes you through how to build a simple CLI tool using typer. Over the years, I built CLI tools with click,..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Instrumentation " role="presentation"><a href="/category/instrumentation/"><span>Instrumentation</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Development</span>
+        </span>
+        <h1 class="post-title">Build a simple CLI in Python with Typer</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Thu 14 November 2024">Thu 14 November 2024</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h3>Introduction</h3>
+<p>This post takes you through how to build a simple CLI tool using <a href="https://typer.tiangolo.com/">typer</a>.</p>
+<p>Over the years, I built CLI tools with <a href="https://click.palletsprojects.com/en/stable/">click</a>, 
+<a href="https://docopt.readthedocs.io/en/latest/">docopt</a> and <a href="https://docs.python.org/3/library/argparse.html">argparse</a>.</p>
+<p>I decided to give typer a go because I saw some of the CLI tools built with it and I liked the output.</p>
+<h3>How to install typer</h3>
+<p>I install everything via <a href="https://python-poetry.org/">poetry</a> these days, it's my go-to tool for dependencies 
+and virtual environments: </p>
+<p><code>poetry add typer</code></p>
+<h3>How to create a simple command</h3>
+<p>For this blog post I wanted to choose something very simple and something related to a topic that I enjoy. 
+So I built this very simple CLI application called <code>scriptor</code> that helps me with my writing.</p>
+<p>Let's create one command that writes some text into a file, and one that reads the file.</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">typer</span>
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Typer</span><span class="p">()</span>
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;book.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">read</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;book.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">app</span><span class="p">()</span>
+</code></pre></div>
+
+<p>^^ <code>scriptor.py</code></p>
+<p>Let's run <code>scriptor</code> with the <code>--help</code> option:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>--help
+
+<span class="w"> </span>Usage:<span class="w"> </span>scriptor.py<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+
+╭─<span class="w"> </span>Options<span class="w"> </span>────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│<span class="w"> </span>--install-completion<span class="w">          </span>Install<span class="w"> </span>completion<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>shell.<span class="w">                                                                                                                                  </span>│
+│<span class="w"> </span>--show-completion<span class="w">             </span>Show<span class="w"> </span>completion<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>current<span class="w"> </span>shell,<span class="w"> </span>to<span class="w"> </span>copy<span class="w"> </span>it<span class="w"> </span>or<span class="w"> </span>customize<span class="w"> </span>the<span class="w"> </span>installation.<span class="w">                                                                                           </span>│
+│<span class="w"> </span>--help<span class="w">                        </span>Show<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span>exit.<span class="w">                                                                                                                                                </span>│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─<span class="w"> </span>Commands<span class="w"> </span>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│<span class="w"> </span><span class="nb">read</span><span class="w">                                                                                                                                                                                                     </span>│
+│<span class="w"> </span>write<span class="w">                                                                                                                                                                                                    </span>│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre></div>
+
+<p>And if we zoom in on one command:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>write<span class="w"> </span>--help
+
+<span class="w"> </span>Usage:<span class="w"> </span>scriptor.py<span class="w"> </span>write<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>TEXT
+
+╭─<span class="w"> </span>Arguments<span class="w"> </span>──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│<span class="w"> </span>*<span class="w">    </span>text<span class="w">      </span>TEXT<span class="w">  </span><span class="o">[</span>default:<span class="w"> </span>None<span class="o">]</span><span class="w"> </span><span class="o">[</span>required<span class="o">]</span><span class="w">                                                                                                                                                          </span>│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─<span class="w"> </span>Options<span class="w"> </span>────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│<span class="w"> </span>--help<span class="w">          </span>Show<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span>exit.<span class="w">                                                                                                                                                              </span>│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre></div>
+
+<p>Let's write something and then read it back:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>write<span class="w"> </span><span class="s2">&quot;I am writing in my book.&quot;</span>
+➜<span class="w">  </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>write<span class="w"> </span><span class="s2">&quot;Chapter 1. The Beginning.&quot;</span>
+➜
+➜<span class="w">  </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span><span class="nb">read</span>
+I<span class="w"> </span>am<span class="w"> </span>writing<span class="w"> </span><span class="k">in</span><span class="w"> </span>my<span class="w"> </span>book.
+Chapter<span class="w"> </span><span class="m">1</span>.<span class="w"> </span>The<span class="w"> </span>Beginning.
+</code></pre></div>
+
+<h3>How to create a simple command with options</h3>
+<p>Let's say that we want to add a command that:</p>
+<ul>
+<li>by default counts the number of words we just wrote</li>
+<li>it accepts one or multiple words and outputs their frequency - this is optional</li>
+</ul>
+<p>When you first look at typer, the only thing you need to get used to is how you can define your input for the commands.
+The implementation of the command is nothing more than adding your custom logic.
+Let's work on the requirement above and create a command called <code>count</code> and work on the parameters step by step:</p>
+<p>Step 1. Decide what the input looks like in typer</p>
+<p>By default, a CLI option in typer is optional, as opposed to a CLI argument. So we can use the <code>typer.Option</code> to 
+pass in data to the command line. The option will look like this: <code>--word &lt;my-word&gt;</code>.
+In typer, you can pass an option multiple times <code>--word &lt;word-1&gt; --word &lt;word-2&gt;</code> so this is suited for our requirement 
+to accept more than one word. </p>
+<p>Based on this, our parameter for the command will look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">word</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="o">&lt;</span><span class="n">some</span><span class="o">-</span><span class="nb">type</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">define</span><span class="o">&gt;</span><span class="p">],</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">()]</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+
+<p>Please note that typer recommends to use <a href="https://docs.python.org/3/library/typing.html#typing.Annotated">Annotated</a>
+for adding content-specific metadata to an annotation, but if you prefer, you can type your arguments without it. </p>
+<p>Step 2. Define the type for the <code>word</code> parameter</p>
+<p>The value that comes back from the option will be a list of strings, which is also optional so our type will be:
+<code>Optional[list[str]]</code>.</p>
+<p>Putting everything together results in the following definition for the command:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">()]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="o">...</span>
+</code></pre></div>
+
+<p>Now let's add some basic implementation for the count and try it out:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">()]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;book.txt&quot;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">count_items</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">count_items</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The word </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> appears </span><span class="si">{</span><span class="n">count_items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2"> times&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The command output will look like this:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>count
+<span class="m">10</span>
+➜<span class="w"> </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>count<span class="w"> </span>--word<span class="w"> </span>I<span class="w"> </span>--word<span class="w"> </span>write
+The<span class="w"> </span>word<span class="w"> </span><span class="s2">&quot;I&quot;</span><span class="w"> </span>appears<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="nb">times</span>
+The<span class="w"> </span>word<span class="w"> </span><span class="s2">&quot;write&quot;</span><span class="w"> </span>appears<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="nb">times</span>
+</code></pre></div>
+
+<p>At the minimum, this is all you need to do to create a command with options. </p>
+<h3>How to create subcommands</h3>
+<p>Let's assume that we come back to our requirements for the <code>count</code> command and want to also count lines, not just words. 
+This is a good candidate for adding two subcommands:</p>
+<ul>
+<li>one that counts words: <code>poetry run python scriptor.py count words</code></li>
+<li>one that counts lines: <code>poetry run python scriptor.py count lines</code></li>
+</ul>
+<p>The key here is to make the <code>count</code> command be a typer app, so that we can append commands to it:</p>
+<div class="highlight"><pre><span></span><code><span class="n">count_app</span> <span class="o">=</span> <span class="n">typer</span><span class="o">.</span><span class="n">Typer</span><span class="p">()</span>
+<span class="n">app</span><span class="o">.</span><span class="n">add_typer</span><span class="p">(</span><span class="n">count_app</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;count&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Then we can create the two subcommands like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@app</span><span class="o">.</span><span class="n">command</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">count</span><span class="p">():</span>
+    <span class="o">...</span>
+
+
+<span class="nd">@count_app</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;words&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">count_words</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span><span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">typer</span><span class="o">.</span><span class="n">Option</span><span class="p">()]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;book.txt&quot;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">count_items</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">count_items</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">word</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The word </span><span class="se">\&quot;</span><span class="si">{</span><span class="n">w</span><span class="si">}</span><span class="se">\&quot;</span><span class="s2"> appears </span><span class="si">{</span><span class="n">count_items</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="si">}</span><span class="s2"> times&quot;</span><span class="p">)</span>
+
+
+<span class="nd">@count_app</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;lines&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">count_lines</span><span class="p">():</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;book.txt&quot;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">count_items</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">Counter</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The number of lines in the book is: </span><span class="si">{</span><span class="nb">sum</span><span class="p">(</span><span class="n">count_items</span><span class="o">.</span><span class="n">values</span><span class="p">())</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The most important thing that changes here is that <code>count_words</code> and <code>count_lines</code> functions are now annotated
+with <code>@count_app.command("words")</code> instead of <code>@app.command("words")</code>. 
+And that's it, you now have two subcommands on your <code>count</code> command. </p>
+<p>Let's run one of them and check the output:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>count<span class="w"> </span>lines
+The<span class="w"> </span>number<span class="w"> </span>of<span class="w"> </span>lines<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>book<span class="w"> </span>is:<span class="w"> </span><span class="m">3</span>
+</code></pre></div>
+
+<p>If we run the <code>--help</code> option on <code>count</code> we get:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>count<span class="w"> </span>--help
+
+<span class="w"> </span>Usage:<span class="w"> </span>scriptor_v2.py<span class="w"> </span>count<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span><span class="w"> </span>COMMAND<span class="w"> </span><span class="o">[</span>ARGS<span class="o">]</span>...
+
+╭─<span class="w"> </span>Options<span class="w"> </span>────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│<span class="w"> </span>--help<span class="w">          </span>Show<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span>exit.<span class="w">                                                                                                                                                              </span>│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+╭─<span class="w"> </span>Commands<span class="w"> </span>───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│<span class="w"> </span>lines<span class="w">                                                                                                                                                                                                    </span>│
+│<span class="w"> </span>words<span class="w">                                                                                                                                                                                                    </span>│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre></div>
+
+<p>We can then zoom in into one subcommand with the <code>--help</code> option:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>poetry<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>scriptor.py<span class="w"> </span>count<span class="w"> </span>words<span class="w"> </span>--help
+
+<span class="w"> </span>Usage:<span class="w"> </span>scriptor_v2.py<span class="w"> </span>count<span class="w"> </span>words<span class="w"> </span><span class="o">[</span>OPTIONS<span class="o">]</span>
+
+╭─<span class="w"> </span>Options<span class="w"> </span>────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│<span class="w"> </span>--word<span class="w">        </span>TEXT<span class="w">  </span><span class="o">[</span>default:<span class="w"> </span>None<span class="o">]</span><span class="w">                                                                                                                                                                      </span>│
+│<span class="w"> </span>--help<span class="w">              </span>Show<span class="w"> </span>this<span class="w"> </span>message<span class="w"> </span>and<span class="w"> </span>exit.<span class="w">                                                                                                                                                          </span>│
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+</code></pre></div>
+
+<h3>Summary</h3>
+<ul>
+<li>typer is simple and intuitive to write once you understand how it's using the type annotations.</li>
+<li>it's very easy to setup for simple commands.</li>
+<li>it's very concise.</li>
+<li>the output for a CLI application is nicely formatted.</li>
+<li>typer has clear documentation.</li>
+<li>follows some of the design principles from <a href="https://fastapi.tiangolo.com/">fastAPI</a> so if you are familiar with fastAPI you will
+  like it instantly.</li>
+</ul>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Build a simple CLI in Python with Typer&amp;url=/2024/11/build-a-simple-cli-in-python-with-typer.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/11/build-a-simple-cli-in-python-with-typer.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/11/build-a-simple-cli-in-python-with-typer.html&amp;title=Build a simple CLI in Python with Typer" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Build a simple CLI in Python with Typer&amp;body=/2024/11/build-a-simple-cli-in-python-with-typer.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
