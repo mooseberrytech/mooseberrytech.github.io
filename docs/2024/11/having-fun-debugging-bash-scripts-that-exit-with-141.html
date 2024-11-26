@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Having fun debugging bash scripts that exit with 141</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2024/11/having-fun-debugging-bash-scripts-that-exit-with-141.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction This is a very short post on how important it is to be methodical when you debug. Recently I had a very short but...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Having fun debugging bash scripts that exit with 141"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction This is a very short post on how important it is to be methodical when you debug. Recently I had a very short but..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2024/11/having-fun-debugging-bash-scripts-that-exit-with-141.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2024-11-26 00:00:00+00:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="automation"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Having fun debugging bash scripts that exit with 141",
+  "headline": "Having fun debugging bash scripts that exit with 141",
+  "datePublished": "2024-11-26 00:00:00+00:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2024/11/having-fun-debugging-bash-scripts-that-exit-with-141.html",
+  "description": "Introduction This is a very short post on how important it is to be methodical when you debug. Recently I had a very short but..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Instrumentation " role="presentation"><a href="/category/instrumentation/"><span>Instrumentation</span></a></li>
+    <li class="nav-Automation " role="presentation"><a href="/category/automation/"><span>Automation</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Automation</span>
+        </span>
+        <h1 class="post-title">Having fun debugging bash scripts that exit with 141</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Tue 26 November 2024">Tue 26 November 2024</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h1>Introduction</h1>
+<p>This is a very short post on how important it is to be methodical when you debug. </p>
+<p>Recently I had a very short but interesting bash script debugging exercise which reminded me of two important things:</p>
+<ul>
+<li>every output you get as part of the debugging process is important, so you need to pay attention to it</li>
+<li>every step that you take needs to be thought through, don't let appearances full you</li>
+</ul>
+<h1>My debugging exercise</h1>
+<p>A while back I developed a script to run some process in the cluster and just the other day it started failing in our CI 
+with <code>141</code>even if apparently nothing in that script itself changed. </p>
+<p>Instead of looking directly at the output of the script and taking it from there, I first suspected that something changed 
+in the image run on the CI and I went to check that. It turns out that the image was actually updated, but my error had nothing to do with that. 
+In hindsight, all I needed to do was to read the exit code. </p>
+<p>So how did I go about debugging this? </p>
+<p><strong>Step 1.</strong> I looked up what <code>141</code> exit code means </p>
+<p>When a script exits with <code>141</code>, this means that a <code>SIGPIPE</code> signal was sent back to the process that runs the script.</p>
+<p>An easy way to test this (this assumes you are on a Unix like system):</p>
+<ul>
+<li>run <code>sleep 1000</code> in one of your bash terminals</li>
+<li>get the pid from another terminal using <code>ps -a</code> -&gt; let's say your process has pid <code>&lt;x-pid&gt;</code> </li>
+<li>run <code>kill -SIGPIPE &lt;x-pid&gt;</code></li>
+<li>in the terminal you run the <code>sleep</code> command, get the last exit code by running <code>echo $?</code> -&gt; this will output <code>141</code></li>
+</ul>
+<p><strong>Step 2.</strong> I reminded myself when a <code>SIGPIPE</code> is triggered</p>
+<p>The <code>SIGPIPE</code> signal is sent to a process when it attempts to write to a pipe without a process connected to the other end.</p>
+<p>So that means that in my script something has changed in one of the pipes. That most likely means that writing to a pipe
+takes too long. </p>
+<p>Debugging the script step by step I narrowed down the issue to a pipe that was doing something like this:
+<code>git tag  --sort=-v:refname | head -n 1</code>. </p>
+<p>So if the first command takes longer because the fetching of the tags is slow or number of tags has increased, this can 
+cause a broken pipe. </p>
+<p><strong>Step 3.</strong> I looked at the script settings </p>
+<p>In order to reproduce this in the terminal I looked at the settings of my script, and all I needed to do was to set the <code>pipefail</code>
+option in my terminal: <code>set -o pipefail</code>.</p>
+<p><strong>Step 4.</strong> I debugged the pipeline</p>
+<p>Is simple to debug a pipeline so for the purpose of this post let's look at this pipeline example:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>~<span class="w"> </span><span class="o">(</span>seq<span class="w"> </span><span class="m">9000</span><span class="p">;</span><span class="w"> </span>sleep<span class="w"> </span><span class="m">0</span>.1<span class="p">;</span><span class="w"> </span>seq<span class="w"> </span><span class="m">9000</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cat<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>
+</code></pre></div>
+
+<p>In order to see all the outputs you can run this:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>~<span class="w"> </span><span class="o">(</span>seq<span class="w"> </span><span class="m">9000</span><span class="p">;</span><span class="w"> </span>sleep<span class="w"> </span><span class="m">0</span>.1<span class="p">;</span><span class="w"> </span>seq<span class="w"> </span><span class="m">9000</span><span class="o">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>cat<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="p">&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PIPESTATUS</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>And you will get an output like this:</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span><span class="m">37362</span><span class="w"> </span><span class="m">37363</span><span class="w"> </span><span class="m">37365</span>
+<span class="m">1</span>
+<span class="m">2</span>
+<span class="m">3</span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w">  </span>+<span class="w"> </span><span class="m">37362</span><span class="w"> </span>broken<span class="w"> </span>pipe<span class="w">  </span><span class="o">(</span><span class="w"> </span>seq<span class="w"> </span><span class="m">9000</span><span class="p">;</span><span class="w"> </span>sleep<span class="w"> </span><span class="m">0</span>.1<span class="p">;</span><span class="w"> </span>seq<span class="w"> </span><span class="m">9000</span><span class="p">;</span><span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="p">|</span>
+<span class="w">       </span><span class="m">37363</span><span class="w"> </span>broken<span class="w"> </span>pipe<span class="w">  </span>cat<span class="w"> </span><span class="p">|</span>
+<span class="w">       </span><span class="m">37365</span><span class="w"> </span><span class="k">done</span><span class="w">         </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>
+</code></pre></div>
+
+<p><strong>Step 5.</strong> One possible solution - collect the output of the first command</p>
+<p>I am sure there are more solutions to this but the first that came to mind was to collect the output and then process it:</p>
+<div class="highlight"><pre><span></span><code>➜<span class="w">  </span>~<span class="w"> </span><span class="nv">OUTPUT</span><span class="o">=</span><span class="k">$(</span>seq<span class="w"> </span><span class="m">9000</span><span class="p">;</span><span class="w"> </span>sleep<span class="w"> </span><span class="m">0</span>.1<span class="p">;</span><span class="w"> </span>seq<span class="w"> </span><span class="m">9000</span><span class="k">)</span>
+➜<span class="w">  </span>~<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$OUTPUT</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span><span class="w">  </span><span class="p">&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PIPESTATUS</span><span class="p">[@]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span><span class="m">38319</span><span class="w"> </span><span class="m">38320</span>
+<span class="m">1</span>
+<span class="m">2</span>
+<span class="m">3</span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w">  </span>+<span class="w"> </span><span class="m">38319</span><span class="w"> </span><span class="k">done</span><span class="w">       </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$OUTPUT</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span>
+<span class="w">       </span><span class="m">38320</span><span class="w"> </span><span class="k">done</span><span class="w">       </span>head<span class="w"> </span>-c<span class="w"> </span><span class="m">5</span>
+</code></pre></div>
+
+<p>And that's it, the output is now processed successfully.</p>
+<h1>Summary</h1>
+<p>Even if you have been debugging issues for years, when it's something that you don't debug every day, you tend to 
+overcomplicate things. 
+Sometimes all you need to do is to pay attention at the error and take it from there.</p>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Having fun debugging bash scripts that exit with 141&amp;url=/2024/11/having-fun-debugging-bash-scripts-that-exit-with-141.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2024/11/having-fun-debugging-bash-scripts-that-exit-with-141.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2024/11/having-fun-debugging-bash-scripts-that-exit-with-141.html&amp;title=Having fun debugging bash scripts that exit with 141" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Having fun debugging bash scripts that exit with 141&amp;body=/2024/11/having-fun-debugging-bash-scripts-that-exit-with-141.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>

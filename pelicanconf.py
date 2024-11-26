@@ -24,6 +24,7 @@ MENUITEMS = (('Home', '/'),
              ('Testing', '/category/testing/'),
              ('Development', '/category/development/'),
              ('Instrumentation', '/category/instrumentation/'),
+             ('Automation', '/category/automation/'),
              ('Ways of Working', '/category/ways-of-working/'),)
 
 # Blogroll
