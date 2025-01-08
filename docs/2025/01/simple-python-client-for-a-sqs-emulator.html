@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Simple python client for a SQS emulator</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2025/01/simple-python-client-for-a-sqs-emulator.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction This is a post about how to write a simple python client for a sqs emulator, for the purpose of functional testing. How to...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Simple python client for a SQS emulator"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction This is a post about how to write a simple python client for a sqs emulator, for the purpose of functional testing. How to..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2025/01/simple-python-client-for-a-sqs-emulator.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2025-01-08 00:00:00+00:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="testing"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Simple python client for a SQS emulator",
+  "headline": "Simple python client for a SQS emulator",
+  "datePublished": "2025-01-08 00:00:00+00:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2025/01/simple-python-client-for-a-sqs-emulator.html",
+  "description": "Introduction This is a post about how to write a simple python client for a sqs emulator, for the purpose of functional testing. How to..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Instrumentation " role="presentation"><a href="/category/instrumentation/"><span>Instrumentation</span></a></li>
+    <li class="nav-Automation " role="presentation"><a href="/category/automation/"><span>Automation</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Testing</span>
+        </span>
+        <h1 class="post-title">Simple python client for a SQS emulator</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Wed 08 January 2025">Wed 08 January 2025</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h1>Introduction</h1>
+<p>This is a post about how to write a simple python client for a sqs emulator, for the purpose of functional testing.</p>
+<h2>How to run the queue emulator</h2>
+<p>Pre-requisites:</p>
+<ul>
+<li><code>docker</code></li>
+<li><code>docker-compose</code></li>
+</ul>
+<p>The easiest way to run a queue emulator in a deployed environment or locally is to use a docker image.
+There is a publicly available base image that you can use, you just need to add your configuration of the queues on top of that.</p>
+<p>Create a config file called <code>emulator.conf</code>:</p>
+<div class="highlight"><pre><span></span><code>include<span class="w"> </span>classpath<span class="o">(</span><span class="s2">&quot;application.conf&quot;</span><span class="o">)</span>
+queues<span class="w"> </span><span class="o">{</span>
+<span class="w">  </span>test-queue<span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nv">fifo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="w">  </span><span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div>
+
+<p>Create a <code>Dockerfile</code> that adds the config in a location where the emulator can find it:</p>
+<div class="highlight"><pre><span></span><code><span class="k">FROM</span><span class="w"> </span><span class="s">softwaremill/elasticmq-native</span>
+<span class="k">COPY</span><span class="w"> </span>emulator.conf<span class="w"> </span>/opt/elasticmq.conf
+</code></pre></div>
+
+<p>The emulator will run on port <code>9324</code> by default, so you can spin it up with <code>docker-compose up</code> using this configuration
+in your <code>docker-compose.yaml</code> file:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">services</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">emulator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">build</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">emulator</span>
+<span class="w">    </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;9324:9324&quot;</span>
+</code></pre></div>
+
+<h2>How to create a simple python emulator client</h2>
+<p>In order to interact with the emulator and test the functionality it supports, you can use a simple python client that looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">boto3</span>
+
+
+<span class="k">class</span> <span class="nc">SqsEmulatorClient</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">boto3</span><span class="o">.</span><span class="n">client</span><span class="p">(</span>
+            <span class="s2">&quot;sqs&quot;</span><span class="p">,</span>
+            <span class="n">region_name</span><span class="o">=</span><span class="s2">&quot;elasticmq&quot;</span><span class="p">,</span>
+            <span class="n">endpoint_url</span><span class="o">=</span><span class="s2">&quot;http://localhost:9324&quot;</span><span class="p">,</span>
+            <span class="n">aws_access_key_id</span><span class="o">=</span><span class="s2">&quot;secret-key-id&quot;</span><span class="p">,</span>
+            <span class="n">aws_secret_access_key</span><span class="o">=</span><span class="s2">&quot;secret-key&quot;</span><span class="p">,</span>
+            <span class="n">use_ssl</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span> <span class="o">=</span> <span class="s2">&quot;test-queue.fifo&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_queue_url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_queue_url</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="n">message_data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="n">content</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;{</span>
+<span class="sd">        &quot;Type&quot;: &quot;Notification&quot;,</span>
+<span class="sd">        &quot;MessageId&quot;:&quot;&quot;&quot;</span>
+            <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;&quot;some-message-id&quot;&#39;</span>
+            <span class="o">+</span> <span class="s2">&quot;&quot;&quot;,</span>
+<span class="s2">        &quot;Message&quot;: &quot;&quot;&quot;</span>
+            <span class="o">+</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">message_data</span><span class="p">)</span>
+            <span class="o">+</span> <span class="s2">&quot;&quot;&quot;,</span>
+<span class="s2">        }&quot;&quot;&quot;</span>
+        <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">send_message</span><span class="p">(</span>
+            <span class="n">QueueUrl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue_url</span><span class="p">,</span>
+            <span class="n">MessageBody</span><span class="o">=</span><span class="n">message</span><span class="p">,</span>
+            <span class="n">MessageGroupId</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">MessageDeduplicationId</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="p">[</span><span class="s2">&quot;ResponseMetadata&quot;</span><span class="p">][</span><span class="s2">&quot;HTTPStatusCode&quot;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">read_messages</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">messages</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">receive_message</span><span class="p">(</span>
+            <span class="n">QueueUrl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue_url</span><span class="p">,</span>
+            <span class="n">WaitTimeSeconds</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+            <span class="n">MaxNumberOfMessages</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">ReceiveRequestAttemptId</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
+        <span class="p">)</span>
+        <span class="n">message_list</span> <span class="o">=</span> <span class="n">messages</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Messages&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">message_list</span>
+
+    <span class="k">def</span> <span class="nf">delete_message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">receipt_handle</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">delete_message</span><span class="p">(</span><span class="n">QueueUrl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue_url</span><span class="p">,</span> <span class="n">ReceiptHandle</span><span class="o">=</span><span class="n">receipt_handle</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">purge_queue</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">purge_queue</span><span class="p">(</span><span class="n">QueueUrl</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_queue_url</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_queue_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">queue_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">get_queue_url</span><span class="p">(</span><span class="n">QueueName</span><span class="o">=</span><span class="n">queue_name</span><span class="p">)[</span><span class="s2">&quot;QueueUrl&quot;</span><span class="p">]</span>
+</code></pre></div>
+
+<p>The only pre-requisite for this client is the <code>boto3</code> library.
+Assuming you are using <code>poetry</code> to install dependencies, run:</p>
+<div class="highlight"><pre><span></span><code>poetry<span class="w"> </span>add<span class="w"> </span>boto3
+</code></pre></div>
+
+<p>Now you can interact with the emulator using the client above.</p>
+<p>Send a message and read it back.</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span><span class="nv">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>SqsEmulatorClient<span class="o">()</span>
+&gt;&gt;&gt;<span class="w"> </span>client.send_message<span class="o">(</span><span class="s2">&quot;Hello&quot;</span><span class="o">)</span>
+<span class="m">200</span>
+&gt;&gt;&gt;<span class="w"> </span>client.read_messages<span class="o">()</span>
+<span class="o">[{</span><span class="s1">&#39;MessageId&#39;</span>:<span class="w"> </span><span class="s1">&#39;1d2d8ca9-0165-4405-ae05-048a6f4559d8&#39;</span>,<span class="w"> </span><span class="s1">&#39;ReceiptHandle&#39;</span>:<span class="w"> </span><span class="s1">&#39;1d2d8ca9-0165-4405-ae05-048a6f4559d8#df729bbc-706d-4ff7-941f-36f6772aec21&#39;</span>,<span class="w"> </span><span class="s1">&#39;MD5OfBody&#39;</span>:<span class="w"> </span><span class="s1">&#39;4192ab737454363e4a69257e68315cf3&#39;</span>,<span class="w"> </span><span class="s1">&#39;Body&#39;</span>:<span class="w"> </span><span class="s1">&#39;{\n        &quot;Type&quot;: &quot;Notification&quot;,\n        &quot;MessageId&quot;:&quot;some-message-id&quot;,\n        &quot;Message&quot;: {&quot;content&quot;: &quot;Hello&quot;},\n        }&#39;</span><span class="o">}]</span>
+</code></pre></div>
+
+<p>Send another messages and read both messages.</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>client.send_message<span class="o">(</span><span class="s2">&quot;Moose&quot;</span><span class="o">)</span>
+<span class="m">200</span>
+&gt;&gt;&gt;<span class="w"> </span>client.read_messages<span class="o">()</span>
+<span class="o">[{</span><span class="s1">&#39;MessageId&#39;</span>:<span class="w"> </span><span class="s1">&#39;d1abaa75-5d94-4977-b49a-cbf9a6c8d4d4&#39;</span>,<span class="w"> </span><span class="s1">&#39;ReceiptHandle&#39;</span>:<span class="w"> </span><span class="s1">&#39;d1abaa75-5d94-4977-b49a-cbf9a6c8d4d4#f15b5809-e792-499f-a74e-087dbb645427&#39;</span>,<span class="w"> </span><span class="s1">&#39;MD5OfBody&#39;</span>:<span class="w"> </span><span class="s1">&#39;41a63a8331c41a520929af9f3575fbc7&#39;</span>,<span class="w"> </span><span class="s1">&#39;Body&#39;</span>:<span class="w"> </span><span class="s1">&#39;{\n        &quot;Type&quot;: &quot;Notification&quot;,\n        &quot;MessageId&quot;:&quot;some-message-id&quot;,\n        &quot;Message&quot;: {&quot;content&quot;: &quot;Moose&quot;},\n        }&#39;</span><span class="o">}</span>,<span class="w"> </span>
+<span class="o">{</span><span class="s1">&#39;MessageId&#39;</span>:<span class="w"> </span><span class="s1">&#39;1d2d8ca9-0165-4405-ae05-048a6f4559d8&#39;</span>,<span class="w"> </span><span class="s1">&#39;ReceiptHandle&#39;</span>:<span class="w"> </span><span class="s1">&#39;1d2d8ca9-0165-4405-ae05-048a6f4559d8#6c687b57-b751-4fee-b164-8e9abbb22af8&#39;</span>,<span class="w"> </span><span class="s1">&#39;MD5OfBody&#39;</span>:<span class="w"> </span><span class="s1">&#39;4192ab737454363e4a69257e68315cf3&#39;</span>,<span class="w"> </span><span class="s1">&#39;Body&#39;</span>:<span class="w"> </span><span class="s1">&#39;{\n        &quot;Type&quot;: &quot;Notification&quot;,\n        &quot;MessageId&quot;:&quot;some-message-id&quot;,\n        &quot;Message&quot;: {&quot;content&quot;: &quot;Hello&quot;},\n        }&#39;</span><span class="o">}]</span>
+&gt;&gt;&gt;
+</code></pre></div>
+
+<p>Please note that reading a message does not remove it from the queue, you need to delete it if you want it removed.
+In order to remove a message, you need to delete it from the queue using the receipt handle.</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>client.delete_message<span class="o">(</span><span class="nv">receipt_handle</span><span class="o">=</span><span class="s2">&quot;d1abaa75-5d94-4977-b49a-cbf9a6c8d4d4#f15b5809-e792-499f-a74e-087dbb645427&quot;</span><span class="o">)</span>
+&gt;&gt;&gt;<span class="w"> </span>client.read_messages<span class="o">()</span>
+<span class="o">[{</span><span class="s1">&#39;MessageId&#39;</span>:<span class="w"> </span><span class="s1">&#39;1d2d8ca9-0165-4405-ae05-048a6f4559d8&#39;</span>,<span class="w"> </span><span class="s1">&#39;ReceiptHandle&#39;</span>:<span class="w"> </span><span class="s1">&#39;1d2d8ca9-0165-4405-ae05-048a6f4559d8#35c591a7-f3ae-4fd2-96ed-be35e5f14173&#39;</span>,<span class="w"> </span><span class="s1">&#39;MD5OfBody&#39;</span>:<span class="w"> </span><span class="s1">&#39;4192ab737454363e4a69257e68315cf3&#39;</span>,<span class="w"> </span><span class="s1">&#39;Body&#39;</span>:<span class="w"> </span><span class="s1">&#39;{\n        &quot;Type&quot;: &quot;Notification&quot;,\n        &quot;MessageId&quot;:&quot;some-message-id&quot;,\n        &quot;Message&quot;: {&quot;content&quot;: &quot;Hello&quot;},\n        }&#39;</span><span class="o">}]</span>
+&gt;&gt;&gt;
+</code></pre></div>
+
+<p>You can also purge the entire queue:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>client.purge_queue<span class="o">()</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span>client.read_messages<span class="o">()</span>
+<span class="o">[]</span>
+</code></pre></div>
+
+<h2>Summary</h2>
+<p>Emulating a sqs queue for the purpose of testing is a very straight forward task,
+and it removes the dependency on a real queue for your testing. 
+This also means that your local, ci and deployed testing can use the exact same mechanism for validating your code. </p>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Simple python client for a SQS emulator&amp;url=/2025/01/simple-python-client-for-a-sqs-emulator.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2025/01/simple-python-client-for-a-sqs-emulator.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2025/01/simple-python-client-for-a-sqs-emulator.html&amp;title=Simple python client for a SQS emulator" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Simple python client for a SQS emulator&amp;body=/2025/01/simple-python-client-for-a-sqs-emulator.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
