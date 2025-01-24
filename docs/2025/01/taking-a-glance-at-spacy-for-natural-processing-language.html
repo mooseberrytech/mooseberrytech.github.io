@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Taking a glance at SpaCy for Natural Processing Language</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2025/01/taking-a-glance-at-spacy-for-natural-processing-language.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Introduction SpaCy is an open source library that I haven't tried out before writing this blog post. Sometimes is good to look at a tool...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Taking a glance at SpaCy for Natural Processing Language"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Introduction SpaCy is an open source library that I haven't tried out before writing this blog post. Sometimes is good to look at a tool..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2025/01/taking-a-glance-at-spacy-for-natural-processing-language.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2025-01-24 00:00:00+00:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="development"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Taking a glance at SpaCy for Natural Processing Language",
+  "headline": "Taking a glance at SpaCy for Natural Processing Language",
+  "datePublished": "2025-01-24 00:00:00+00:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2025/01/taking-a-glance-at-spacy-for-natural-processing-language.html",
+  "description": "Introduction SpaCy is an open source library that I haven't tried out before writing this blog post. Sometimes is good to look at a tool..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Instrumentation " role="presentation"><a href="/category/instrumentation/"><span>Instrumentation</span></a></li>
+    <li class="nav-Automation " role="presentation"><a href="/category/automation/"><span>Automation</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Development</span>
+        </span>
+        <h1 class="post-title">Taking a glance at SpaCy for Natural Processing Language</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Fri 24 January 2025">Fri 24 January 2025</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <h1>Introduction</h1>
+<p><a href="https://spacy.io/">SpaCy</a> is an open source library that I haven't tried out before writing this blog post. 
+Sometimes is good to look at a tool with beginner's eyes, it's a fair assessment on how easy it is to use.</p>
+<p>I do creative writing in my spare time so when I saw that <code>SpaCy</code> does <a href="https://en.wikipedia.org/wiki/Natural_language_processing">Natural Language Processing</a>
+I thought it might be useful for analysing my work and getting some insights. </p>
+<p>This post is covering a few of the <code>SpaCy</code> features which I found useful. </p>
+<h2>How to install</h2>
+<p><code>SpaCy</code> can be installed as a python library. Let's assume that we use <code>poetry</code> to install our dependencies:</p>
+<p><code>poetry add spacy</code></p>
+<p>Note: At the moment <code>spacy</code> requires <code>python &lt;3.13,&gt;=3.9</code>.</p>
+<h2>How to prime</h2>
+<p>I am going to start with a brief introduction on Natural Language Processing (NLP) because it's useful in this context.
+NLP is a subfield of Artificial Intelligence and involves analysing and understanding natural language. The aim for it
+is to produce insights based on patterns. </p>
+<p>Some examples of insights that NLP can produce are:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Automatic_summarization">Automatic Summarization</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Named-entity_recognition">Named-entity Recognition</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sentiment_analysis">Sentiment Analysis</a></li>
+</ul>
+<p>The insights for NLP work on models. For example, there are different models for different languages. 
+For this post I used the <code>en_core_web_sm</code> model, which is the default model for English at this point in time.</p>
+<p>Download the model:</p>
+<p><code>poetry run python -m spacy download en_core_web_sm</code></p>
+<p>Note: If you use a system-wide <code>python</code> installation, or if you are in an activated virtual environment, you can 
+just run: <code>python -m spacy download en_core_web_sm</code></p>
+<p>We should get an output like this which prompts us to do the next step:</p>
+<div class="highlight"><pre><span></span><code>✔<span class="w"> </span>Download<span class="w"> </span>and<span class="w"> </span>installation<span class="w"> </span>successful
+You<span class="w"> </span>can<span class="w"> </span>now<span class="w"> </span>load<span class="w"> </span>the<span class="w"> </span>package<span class="w"> </span>via<span class="w"> </span>spacy.load<span class="o">(</span><span class="s1">&#39;en_core_web_sm&#39;</span><span class="o">)</span>
+</code></pre></div>
+
+<p>Let's load the model into the library from the python REPL (python interpreter):</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span>import<span class="w"> </span>spacy
+&gt;&gt;&gt;<span class="w"> </span><span class="nv">nlp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>spacy.load<span class="o">(</span><span class="s2">&quot;en_core_web_sm&quot;</span><span class="o">)</span>
+&gt;&gt;&gt;
+</code></pre></div>
+
+<p>Done. Now we are ready to explore the <code>spacy</code> features. </p>
+<h2>How to start processing text</h2>
+<p>So what is the <code>nlp</code> object that we just constructed above? Let's explore it in REPL:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>nlp
+&lt;spacy.lang.en.English<span class="w"> </span>object<span class="w"> </span>at<span class="w"> </span>0x116a058b0&gt;
+&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span>help<span class="o">(</span>nlp<span class="o">)</span>
+</code></pre></div>
+
+<p>A snippet of the output returned by the <code>help</code> command looks like this:</p>
+<div class="highlight"><pre><span></span><code>Help<span class="w"> </span>on<span class="w"> </span>English<span class="w"> </span><span class="k">in</span><span class="w"> </span>module<span class="w"> </span>spacy.lang.en<span class="w"> </span>object:
+
+class<span class="w"> </span>English<span class="o">(</span>spacy.language.Language<span class="o">)</span>
+...
+Methods<span class="w"> </span>inherited<span class="w"> </span>from<span class="w"> </span>spacy.language.Language:
+...
+<span class="w"> </span><span class="p">|</span><span class="w">  </span>__call__<span class="o">(</span>self,<span class="w"> </span>text:<span class="w"> </span>Union<span class="o">[</span>str,<span class="w"> </span>spacy.tokens.doc.Doc<span class="o">]</span>,<span class="w"> </span>*,<span class="w"> </span>disable:<span class="w"> </span>Iterable<span class="o">[</span>str<span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[]</span>,<span class="w"> </span>component_cfg:<span class="w"> </span>Optional<span class="o">[</span>Dict<span class="o">[</span>str,<span class="w"> </span>Dict<span class="o">[</span>str,<span class="w"> </span>Any<span class="o">]]]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>None<span class="o">)</span><span class="w"> </span>-&gt;<span class="w"> </span>spacy.tokens.doc.Doc
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>Apply<span class="w"> </span>the<span class="w"> </span>pipeline<span class="w"> </span>to<span class="w"> </span>some<span class="w"> </span>text.<span class="w"> </span>The<span class="w"> </span>text<span class="w"> </span>can<span class="w"> </span>span<span class="w"> </span>multiple<span class="w"> </span>sentences,
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>and<span class="w"> </span>can<span class="w"> </span>contain<span class="w"> </span>arbitrary<span class="w"> </span>whitespace.<span class="w"> </span>Alignment<span class="w"> </span>into<span class="w"> </span>the<span class="w"> </span>original<span class="w"> </span>string
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>is<span class="w"> </span>preserved.
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>...
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>RETURNS<span class="w"> </span><span class="o">(</span>Doc<span class="o">)</span>:<span class="w"> </span>A<span class="w"> </span>container<span class="w"> </span><span class="k">for</span><span class="w"> </span>accessing<span class="w"> </span>the<span class="w"> </span>annotations.
+<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>DOCS:<span class="w"> </span>https://spacy.io/api/language#call
+</code></pre></div>
+
+<p>So at this point, even by skimming through the help provided on this object, we can make out that is callable, and it accepts some text.
+So let's call and see what we get:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;blog_doc<span class="w"> </span><span class="o">=</span><span class="w"> </span>nlp<span class="o">(</span><span class="s2">&quot;This is a post about the spacy library usage. Let&#39;s analyse the text in the post.&quot;</span><span class="o">)</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span>type<span class="o">(</span>blog_doc<span class="o">)</span>
+&lt;class<span class="w"> </span><span class="s1">&#39;spacy.tokens.doc.Doc&#39;</span>&gt;
+</code></pre></div>
+
+<p>So we get a <a href="https://spacy.io/api/doc">Doc</a> object. What can we do with it?</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;help<span class="o">(</span>blog_doc<span class="o">)</span>
+</code></pre></div>
+
+<p>The <code>help</code> output gives us further clues:</p>
+<div class="highlight"><pre><span></span><code>Help<span class="w"> </span>on<span class="w"> </span>Doc<span class="w"> </span>object:
+
+class<span class="w"> </span>Doc<span class="o">(</span>builtins.object<span class="o">)</span>
+<span class="w"> </span><span class="p">|</span><span class="w">  </span>Doc<span class="o">(</span>Vocab<span class="w"> </span>vocab,<span class="w"> </span><span class="nv">words</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">spaces</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">user_data</span><span class="o">=</span>None,<span class="w"> </span>*,<span class="w"> </span><span class="nv">tags</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">pos</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">morphs</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">lemmas</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">heads</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">deps</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">sent_starts</span><span class="o">=</span>None,<span class="w"> </span><span class="nv">ents</span><span class="o">=</span>None<span class="o">)</span>
+<span class="w"> </span><span class="p">|</span><span class="w">  </span>A<span class="w"> </span>sequence<span class="w"> </span>of<span class="w"> </span>Token<span class="w"> </span>objects.<span class="w"> </span>Access<span class="w"> </span>sentences<span class="w"> </span>and<span class="w"> </span>named<span class="w"> </span>entities,<span class="w"> </span><span class="nb">export</span>
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>annotations<span class="w"> </span>to<span class="w"> </span>numpy<span class="w"> </span>arrays,<span class="w"> </span>losslessly<span class="w"> </span>serialize<span class="w"> </span>to<span class="w"> </span>compressed<span class="w"> </span>binary
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>strings.<span class="w"> </span>The<span class="w"> </span><span class="sb">`</span>Doc<span class="sb">`</span><span class="w"> </span>object<span class="w"> </span>holds<span class="w"> </span>an<span class="w"> </span>array<span class="w"> </span>of<span class="w"> </span><span class="sb">`</span>TokenC<span class="sb">`</span><span class="w"> </span>structs.<span class="w"> </span>The
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>Python-level<span class="w"> </span><span class="sb">`</span>Token<span class="sb">`</span><span class="w"> </span>and<span class="w"> </span><span class="sb">`</span>Span<span class="sb">`</span><span class="w"> </span>objects<span class="w"> </span>are<span class="w"> </span>views<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>array,<span class="w"> </span>i.e.
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>they<span class="w"> </span>don<span class="s1">&#39;t own the data themselves.</span>
+<span class="s1"> |</span>
+<span class="s1"> |      EXAMPLE:</span>
+<span class="s1"> |          Construction 1</span>
+<span class="s1"> |          &gt;&gt;&gt; doc = nlp(u&#39;</span>Some<span class="w"> </span>text<span class="err">&#39;</span><span class="o">)</span>
+<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span><span class="p">|</span><span class="w">          </span>Construction<span class="w"> </span><span class="m">2</span>
+<span class="w"> </span><span class="p">|</span><span class="w">          </span>&gt;&gt;&gt;<span class="w"> </span>from<span class="w"> </span>spacy.tokens<span class="w"> </span>import<span class="w"> </span>Doc
+<span class="w"> </span><span class="p">|</span><span class="w">          </span>&gt;&gt;&gt;<span class="w"> </span><span class="nv">doc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>Doc<span class="o">(</span>nlp.vocab,<span class="w"> </span><span class="nv">words</span><span class="o">=[</span><span class="s2">&quot;hello&quot;</span>,<span class="w"> </span><span class="s2">&quot;world&quot;</span>,<span class="w"> </span><span class="s2">&quot;!&quot;</span><span class="o">]</span>,<span class="w"> </span><span class="nv">spaces</span><span class="o">=[</span>True,<span class="w"> </span>False,<span class="w"> </span>False<span class="o">])</span>
+<span class="w"> </span><span class="p">|</span>
+<span class="w"> </span><span class="p">|</span><span class="w">      </span>DOCS:<span class="w"> </span>https://spacy.io/api/doc
+</code></pre></div>
+
+<p>Ok, so the Doc object contains a series of tokens, let's explore that:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span><span class="o">[</span>token.text<span class="w"> </span><span class="k">for</span><span class="w"> </span>token<span class="w"> </span><span class="k">in</span><span class="w"> </span>blog_doc<span class="o">]</span>
+<span class="o">[</span><span class="s1">&#39;This&#39;</span>,<span class="w"> </span><span class="s1">&#39;is&#39;</span>,<span class="w"> </span><span class="s1">&#39;a&#39;</span>,<span class="w"> </span><span class="s1">&#39;post&#39;</span>,<span class="w"> </span><span class="s1">&#39;about&#39;</span>,<span class="w"> </span><span class="s1">&#39;the&#39;</span>,<span class="w"> </span><span class="s1">&#39;spacy&#39;</span>,<span class="w"> </span><span class="s1">&#39;library&#39;</span>,<span class="w"> </span><span class="s1">&#39;usage&#39;</span>,<span class="w"> </span><span class="s1">&#39;.&#39;</span>,<span class="w"> </span><span class="s1">&#39;Let&#39;</span>,<span class="w"> </span><span class="s2">&quot;&#39;s&quot;</span>,<span class="w"> </span><span class="s1">&#39;analyse&#39;</span>,<span class="w"> </span><span class="s1">&#39;the&#39;</span>,<span class="w"> </span><span class="s1">&#39;text&#39;</span>,<span class="w"> </span><span class="s1">&#39;in&#39;</span>,<span class="w"> </span><span class="s1">&#39;the&#39;</span>,<span class="w"> </span><span class="s1">&#39;post&#39;</span>,<span class="w"> </span><span class="s1">&#39;.&#39;</span><span class="o">]</span>
+</code></pre></div>
+
+<p>So just as easy as this, we can split the text into words and punctuation marks.
+What useful operations can we do on these tokens? </p>
+<p>Let's say we want to:</p>
+<ul>
+<li>count the frequency of the words, to see how much we are repeating ourselves</li>
+<li>filter out the punctuation</li>
+<li>count the number of sentences</li>
+</ul>
+<p>If we explore a token object, we get more information about what we can do with it:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;dir<span class="o">(</span>blog_doc<span class="o">[</span><span class="m">0</span><span class="o">])</span>
+<span class="o">[</span><span class="w"> </span>...<span class="s1">&#39;is_alpha&#39;</span>,<span class="w"> </span>...<span class="s1">&#39;is_digit&#39;</span>,<span class="w"> </span>...<span class="w"> </span><span class="s1">&#39;is_punct&#39;</span>...<span class="s1">&#39;is_stop&#39;</span>...<span class="o">]</span>
+</code></pre></div>
+
+<p>There is a lot more functionality that the tokens offer, I just picked a few methods. 
+Let's count the word frequency:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span>
+...<span class="w">     </span>token.text<span class="w"> </span><span class="k">for</span><span class="w"> </span>token<span class="w"> </span><span class="k">in</span><span class="w"> </span>blog_doc
+...<span class="w">     </span><span class="k">if</span><span class="w"> </span>not<span class="w"> </span>token.is_punct
+...<span class="w"> </span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span>words
+<span class="o">[</span><span class="s1">&#39;This&#39;</span>,<span class="w"> </span><span class="s1">&#39;is&#39;</span>,<span class="w"> </span><span class="s1">&#39;a&#39;</span>,<span class="w"> </span><span class="s1">&#39;post&#39;</span>,<span class="w"> </span><span class="s1">&#39;about&#39;</span>,<span class="w"> </span><span class="s1">&#39;the&#39;</span>,<span class="w"> </span><span class="s1">&#39;spacy&#39;</span>,<span class="w"> </span><span class="s1">&#39;library&#39;</span>,<span class="w"> </span><span class="s1">&#39;usage&#39;</span>,<span class="w"> </span><span class="s1">&#39;Let&#39;</span>,<span class="w"> </span><span class="s2">&quot;&#39;s&quot;</span>,<span class="w"> </span><span class="s1">&#39;analyse&#39;</span>,<span class="w"> </span><span class="s1">&#39;the&#39;</span>,<span class="w"> </span><span class="s1">&#39;text&#39;</span>,<span class="w"> </span><span class="s1">&#39;in&#39;</span>,<span class="w"> </span><span class="s1">&#39;the&#39;</span>,<span class="w"> </span><span class="s1">&#39;post&#39;</span><span class="o">]</span>
+&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span>from<span class="w"> </span>collections<span class="w"> </span>import<span class="w"> </span>Counter
+&gt;&gt;&gt;<span class="w"> </span>print<span class="o">(</span>Counter<span class="o">(</span>words<span class="o">)</span>.most_common<span class="o">(</span><span class="m">2</span><span class="o">))</span>
+<span class="o">[(</span><span class="s1">&#39;the&#39;</span>,<span class="w"> </span><span class="m">3</span><span class="o">)</span>,<span class="w"> </span><span class="o">(</span><span class="s1">&#39;post&#39;</span>,<span class="w"> </span><span class="m">2</span><span class="o">)]</span>
+&gt;&gt;&gt;
+</code></pre></div>
+
+<p>When we do analysis on large texts we probably want to remove the words that are necessary in order for the sentences to make
+sense from a grammatical point of view, but they are not significant. Those words are called "stop words" in NLP. 
+A few examples in English would be: but, and, then, the.</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span><span class="nv">words</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span>
+...<span class="w">     </span>token.text<span class="w"> </span><span class="k">for</span><span class="w"> </span>token<span class="w"> </span><span class="k">in</span><span class="w"> </span>blog_doc
+...<span class="w">     </span><span class="k">if</span><span class="w"> </span>not<span class="w"> </span>token.is_stop<span class="w"> </span>is<span class="w"> </span>not<span class="w"> </span>token.is_punct
+...<span class="w"> </span><span class="o">]</span>
+&gt;&gt;&gt;<span class="w"> </span>words
+<span class="o">[</span><span class="s1">&#39;post&#39;</span>,<span class="w"> </span><span class="s1">&#39;spacy&#39;</span>,<span class="w"> </span><span class="s1">&#39;library&#39;</span>,<span class="w"> </span><span class="s1">&#39;usage&#39;</span>,<span class="w"> </span><span class="s1">&#39;Let&#39;</span>,<span class="w"> </span><span class="s1">&#39;analyse&#39;</span>,<span class="w"> </span><span class="s1">&#39;text&#39;</span>,<span class="w"> </span><span class="s1">&#39;post&#39;</span><span class="o">]</span>
+&gt;&gt;&gt;
+</code></pre></div>
+
+<p>Now let's look at sentences:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;
+&gt;&gt;&gt;<span class="w"> </span><span class="nv">sentences</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>list<span class="o">(</span>blog_doc.sents<span class="o">)</span>
+Traceback<span class="w"> </span><span class="o">(</span>most<span class="w"> </span>recent<span class="w"> </span>call<span class="w"> </span>last<span class="o">)</span>:
+<span class="w">  </span>File<span class="w"> </span><span class="s2">&quot;&lt;stdin&gt;&quot;</span>,<span class="w"> </span>line<span class="w"> </span><span class="m">1</span>,<span class="w"> </span><span class="k">in</span><span class="w"> </span>&lt;module&gt;
+<span class="w">  </span>File<span class="w"> </span><span class="s2">&quot;spacy/tokens/doc.pyx&quot;</span>,<span class="w"> </span>line<span class="w"> </span><span class="m">926</span>,<span class="w"> </span><span class="k">in</span><span class="w"> </span>sents
+ValueError:<span class="w"> </span><span class="o">[</span>E030<span class="o">]</span><span class="w"> </span>Sentence<span class="w"> </span>boundaries<span class="w"> </span>unset.<span class="w"> </span>You<span class="w"> </span>can<span class="w"> </span>add<span class="w"> </span>the<span class="w"> </span><span class="s1">&#39;sentencizer&#39;</span><span class="w"> </span>component<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>pipeline<span class="w"> </span>with:<span class="w"> </span><span class="sb">`</span>nlp.add_pipe<span class="o">(</span><span class="s1">&#39;sentencizer&#39;</span><span class="o">)</span><span class="sb">`</span>.<span class="w"> </span>Alternatively,<span class="w"> </span>add<span class="w"> </span>the<span class="w"> </span>dependency<span class="w"> </span>parser<span class="w"> </span>or<span class="w"> </span>sentence<span class="w"> </span>recognizer,<span class="w"> </span>or<span class="w"> </span><span class="nb">set</span><span class="w"> </span>sentence<span class="w"> </span>boundaries<span class="w"> </span>by<span class="w"> </span>setting<span class="w"> </span><span class="sb">`</span>doc<span class="o">[</span>i<span class="o">]</span>.is_sent_start<span class="sb">`</span>.
+</code></pre></div>
+
+<p>Ok, so this doesn't work out of the box but the instructions are pretty clear:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>nlp.add_pipe<span class="o">(</span><span class="s1">&#39;sentencizer&#39;</span><span class="o">)</span>
+&gt;&gt;&gt;<span class="w"> </span><span class="nv">blog_doc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>nlp<span class="o">(</span><span class="s2">&quot;This is a post about the spacy library usage. Let&#39;s analyse the text in the post.&quot;</span><span class="o">)</span>
+&gt;&gt;&gt;<span class="w"> </span><span class="nv">sentences</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>blog_doc.sents
+&gt;&gt;&gt;<span class="w"> </span><span class="o">[</span>sentence<span class="w"> </span><span class="k">for</span><span class="w"> </span>sentence<span class="w"> </span><span class="k">in</span><span class="w"> </span>sentences<span class="o">]</span>
+<span class="o">[</span>This<span class="w"> </span>is<span class="w"> </span>a<span class="w"> </span>post<span class="w"> </span>about<span class="w"> </span>the<span class="w"> </span>spacy<span class="w"> </span>library<span class="w"> </span>usage.,<span class="w"> </span>Let<span class="err">&#39;</span>s<span class="w"> </span>analyse<span class="w"> </span>the<span class="w"> </span>text<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>post.<span class="o">]</span>
+</code></pre></div>
+
+<p>Note: We need to make sure we call again the nlp Language object with our text in order for the <a href="https://spacy.io/api/sentencerecognizer">sentence recognizer</a> to be applied.</p>
+<h1>Further thoughts</h1>
+<ul>
+<li>exploring a library step by step, by using the python REPL, is a very quick way to discover the library capabilities</li>
+<li><code>SpaCy</code> has a lot of dependencies, so you need to be aware of that if you want to package it and deploy it</li>
+<li><code>Spacy</code> has a lot more functionality. Here are some of the things it can do:<ul>
+<li><a href="https://spacy.io/api/tagger">Part-of-Speech Tagging</a></li>
+<li><a href="https://spacy.io/api/lemmatizer">Lemmatization</a></li>
+<li><a href="https://spacy.io/api/large-language-models#sentiment">Sentiment Analysis</a></li>
+</ul>
+</li>
+</ul>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Taking a glance at SpaCy for Natural Processing Language&amp;url=/2025/01/taking-a-glance-at-spacy-for-natural-processing-language.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2025/01/taking-a-glance-at-spacy-for-natural-processing-language.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2025/01/taking-a-glance-at-spacy-for-natural-processing-language.html&amp;title=Taking a glance at SpaCy for Natural Processing Language" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Taking a glance at SpaCy for Natural Processing Language&amp;body=/2025/01/taking-a-glance-at-spacy-for-natural-processing-language.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
