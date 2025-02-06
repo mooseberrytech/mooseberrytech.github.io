@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Five things I love about pydantic</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2025/02/five-things-i-love-about-pydantic.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Whenever I use pydantic for anything to do with data validation or serialization, I feel like it just works! It offers so much out of...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Five things I love about pydantic"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Whenever I use pydantic for anything to do with data validation or serialization, I feel like it just works! It offers so much out of..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2025/02/five-things-i-love-about-pydantic.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2025-02-06 00:00:00+00:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="development"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Five things I love about pydantic",
+  "headline": "Five things I love about pydantic",
+  "datePublished": "2025-02-06 00:00:00+00:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2025/02/five-things-i-love-about-pydantic.html",
+  "description": "Whenever I use pydantic for anything to do with data validation or serialization, I feel like it just works! It offers so much out of..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Instrumentation " role="presentation"><a href="/category/instrumentation/"><span>Instrumentation</span></a></li>
+    <li class="nav-Automation " role="presentation"><a href="/category/automation/"><span>Automation</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Development</span>
+        </span>
+        <h1 class="post-title">Five things I love about pydantic</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Thu 06 February 2025">Thu 06 February 2025</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <p>Whenever I use <a href="https://docs.pydantic.dev/latest/">pydantic</a> for anything to do with data validation or serialization, I feel like it just works!
+It offers so much out of the box and is very intuitive. Is the perfect tool because it allows you to focus on the problem
+at hand rather than getting sidetracked into learning some complicated syntax. </p>
+<h2>How to install it</h2>
+<p>Run <code>poetry add pydantic</code> in your poetry project. </p>
+<h2>1. Out of the box data validation</h2>
+<p>Whether you are importing a CSV, a toml file or any data source, pydantic has a lot of out of the box validation ready to use. </p>
+<p>Let's assume that you have the following data in <code>candidates.csv</code>:</p>
+<div class="highlight"><pre><span></span><code>name,email,score,exam_date
+Bob,bob@email.com,70,2026-01-01
+Alice,alice@email.com,78,2024-05-01
+</code></pre></div>
+
+<p>Here is how you can validate the data with pydantic:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">EmailStr</span><span class="p">,</span> <span class="n">PositiveInt</span><span class="p">,</span> <span class="n">FutureDate</span>
+
+<span class="k">class</span> <span class="nc">Candidate</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">email</span><span class="p">:</span> <span class="n">EmailStr</span>
+    <span class="n">score</span><span class="p">:</span> <span class="n">PositiveInt</span>
+    <span class="n">exam_date</span><span class="p">:</span> <span class="n">FutureDate</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;candidates.csv&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">reader</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">DictReader</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="n">candidates</span> <span class="o">=</span> <span class="p">[</span><span class="n">Candidate</span><span class="o">.</span><span class="n">model_validate</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">reader</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">candidates</span><span class="p">)</span>
+
+<span class="c1"># pydantic_core._pydantic_core.ValidationError: 1 validation error for Candidate</span>
+<span class="c1"># exam_date</span>
+<span class="c1">#  Date should be in the future [type=date_future, input_value=&#39;2024-05-01&#39;, input_type=str]</span>
+</code></pre></div>
+
+<p>There are a lot of types that you can enforce on a model, to see all of them you can explore the <code>pydantic.typing</code> module in the python REPL:</p>
+<div class="highlight"><pre><span></span><code>&gt;&gt;&gt;<span class="w"> </span>from<span class="w"> </span>pydantic<span class="w"> </span>import<span class="w"> </span>types
+&gt;&gt;&gt;<span class="w"> </span>dir<span class="o">(</span>types<span class="o">)</span>
+</code></pre></div>
+
+<p>Note: The pydantic email validator is optional, so you need to explicitly install it:</p>
+<p><code>poetry add 'pydantic[email]'</code>.</p>
+<h2>2. Managing Settings</h2>
+<p>This feature requires installing the <code>pydantic-settings</code> library:</p>
+<p><code>poetry add pydantic-settings</code></p>
+<p>Let's say that you want to define some runtime settings for your functional testing environment in <code>pydantic_examples.py</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">AnyHttpUrl</span>
+<span class="kn">from</span> <span class="nn">pydantic_settings</span> <span class="kn">import</span> <span class="n">BaseSettings</span><span class="p">,</span> <span class="n">SettingsConfigDict</span>
+
+<span class="k">class</span> <span class="nc">FunctionalTestSettings</span><span class="p">(</span><span class="n">BaseSettings</span><span class="p">):</span>
+    <span class="n">model_config</span> <span class="o">=</span> <span class="n">SettingsConfigDict</span><span class="p">(</span><span class="n">env_file</span><span class="o">=</span><span class="s2">&quot;.env&quot;</span><span class="p">)</span>
+    <span class="n">test_url</span><span class="p">:</span> <span class="n">AnyHttpUrl</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">FunctionalTestSettings</span><span class="p">())</span>
+</code></pre></div>
+
+<p>You can source values from the environment:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$test_url</span><span class="o">=</span>http://www.example.com<span class="w"> </span>python<span class="w"> </span>pydantic_examples.py
+
+<span class="c1">#test_url=AnyHttpUrl(&#39;http://www.example.com/&#39;)</span>
+</code></pre></div>
+
+<h2>3. Function arguments validation</h2>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">PositiveInt</span><span class="p">,</span> <span class="n">validate_arguments</span>
+
+<span class="nd">@validate_arguments</span>
+<span class="k">def</span> <span class="nf">validate_some_number</span><span class="p">(</span><span class="n">positive</span><span class="p">:</span> <span class="n">PositiveInt</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;I am doing something important with this number </span><span class="si">{</span><span class="n">positive</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">validate_some_number</span><span class="p">(</span><span class="o">-</span><span class="mi">9</span><span class="p">)</span>
+
+<span class="c1"># pydantic_core._pydantic_core.ValidationError: 1 validation error for ValidateSomeNumber</span>
+<span class="c1"># positive</span>
+<span class="c1">#   Input should be greater than 0 [type=greater_than, input_value=-9, input_type=int]</span>
+<span class="c1">#</span>
+</code></pre></div>
+
+<h2>4. Before and after field validation</h2>
+<p>Let's assume that you want to build a model that validates a string has a max length and then transform it into uppercase.
+But you don't want to worry about some extra spaces, you would rather strip those before the validation kicks in.
+With pydantic, you can you the <code>field_validator</code> decorator for this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">Field</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">my_string</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">max_length</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;my_string&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;before&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">ensure_stripped</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s1">&#39;my_string&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;after&#39;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">ensure_uppercased</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MyModel</span><span class="p">(</span><span class="n">my_string</span><span class="o">=</span><span class="s2">&quot;abcd     &quot;</span><span class="p">))</span>
+
+<span class="c1"># ABCD</span>
+</code></pre></div>
+
+<p>Even if the input string is longer than 5 characters in the example above, we don't reach validation until we 
+execute the <code>field_validator</code> in <code>before</code> mode.</p>
+<h2>5. JSON Schemas</h2>
+<p>Pydantic offers a very intuitive interface for dealing with JSON Schemas.</p>
+<p>You can create JSON Schemas even from simple types by using the <code>TypeAdapter</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">TypeAdapter</span>
+
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">TypeAdapter</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">adapter</span><span class="o">.</span><span class="n">json_schema</span><span class="p">())</span>
+
+<span class="c1"># {&#39;items&#39;: {&#39;type&#39;: &#39;integer&#39;}, &#39;type&#39;: &#39;array&#39;}</span>
+</code></pre></div>
+
+<p>When you generate a json schema from a model, the default mode is <code>validation</code> but you can also use <code>serialization</code> mode.
+This is depending on if you need a JSON schema required for validating inputs, or one that will be matched by serialization outputs:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">decimal</span> <span class="kn">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span>
+
+<span class="k">class</span> <span class="nc">MyModel</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="n">my_number</span><span class="p">:</span> <span class="n">Decimal</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="s1">&#39;0.5&#39;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MyModel</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;validation&#39;</span><span class="p">))</span>
+
+<span class="c1"># {</span>
+<span class="c1">#   &#39;properties&#39;: {</span>
+<span class="c1">#     &#39;my_number&#39;: {</span>
+<span class="c1">#       &#39;anyOf&#39;: [</span>
+<span class="c1">#         {</span>
+<span class="c1">#           &#39;type&#39;: &#39;number&#39;</span>
+<span class="c1">#         },</span>
+<span class="c1">#         {</span>
+<span class="c1">#           &#39;type&#39;: &#39;string&#39;</span>
+<span class="c1">#         }</span>
+<span class="c1">#       ],</span>
+<span class="c1">#       &#39;default&#39;: &#39;0.5&#39;,</span>
+<span class="c1">#       &#39;title&#39;: &#39;My Number&#39;</span>
+<span class="c1">#     }</span>
+<span class="c1">#   },</span>
+<span class="c1">#   &#39;title&#39;: &#39;MyModel&#39;,</span>
+<span class="c1">#   &#39;type&#39;: &#39;object&#39;</span>
+<span class="c1"># }</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">MyModel</span><span class="o">.</span><span class="n">model_json_schema</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;serialization&#39;</span><span class="p">))</span>
+
+<span class="c1"># {</span>
+<span class="c1">#   &#39;properties&#39;: {</span>
+<span class="c1">#     &#39;my_number&#39;: {</span>
+<span class="c1">#       &#39;default&#39;: &#39;0.5&#39;,</span>
+<span class="c1">#       &#39;title&#39;: &#39;My Number&#39;,</span>
+<span class="c1">#       &#39;type&#39;: &#39;string&#39;</span>
+<span class="c1">#     }</span>
+<span class="c1">#   },</span>
+<span class="c1">#   &#39;title&#39;: &#39;MyModel&#39;,</span>
+<span class="c1">#   &#39;type&#39;: &#39;object&#39;</span>
+<span class="c1"># }</span>
+</code></pre></div>
+
+<h2>Summary</h2>
+<p>There is much more that you can do with <code>pydantic</code>, those were just the 5 top things I could think of that you can use 
+with very little effort. 
+When you start using it in large codebases you can generate OpenApi specs, do custom validators and much more.</p>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Five things I love about pydantic&amp;url=/2025/02/five-things-i-love-about-pydantic.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2025/02/five-things-i-love-about-pydantic.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2025/02/five-things-i-love-about-pydantic.html&amp;title=Five things I love about pydantic" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Five things I love about pydantic&amp;body=/2025/02/five-things-i-love-about-pydantic.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
