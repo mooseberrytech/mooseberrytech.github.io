@@ -4,7 +4,7 @@ author: Adriana Vasiu
 category: development
 
 Whenever I use [pydantic](https://docs.pydantic.dev/latest/) for anything to do with data validation or serialization, I feel like it just works!
-It offers so much out of the box and is very intuitive. Is the perfect tool because it allows you to focus on the problem
+It offers so much out of the box and is very intuitive. It is the perfect tool because it allows you to focus on the problem
 at hand rather than getting sidetracked into learning some complicated syntax. 
 
 ## How to install it
