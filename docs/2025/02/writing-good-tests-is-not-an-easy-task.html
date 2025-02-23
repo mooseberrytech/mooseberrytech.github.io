@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Writing Good Tests is not an Easy Task</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+<link href="/2025/02/writing-good-tests-is-not-an-easy-task.html" rel="canonical" />
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+  <script>
+    var siteUrl = '';
+  </script>
+
+  <script>
+    var localTheme = localStorage.getItem('attila_theme');
+    switch (localTheme) {
+      case 'dark':
+        document.documentElement.classList.add('theme-dark');
+        break;
+      case 'light':
+        document.documentElement.classList.add('theme-light');
+        break;
+      default:
+        break;
+    }
+  </script>
+
+
+
+
+
+
+
+    <meta name="description" content="Being a consultant means I do see a lot of projects with various levels of code quality and testing. There is a lot to say about how to...">
+
+    <meta name="author" content="Adriana Vasiu">
+
+
+
+
+
+<!-- Open Graph -->
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title" content="Writing Good Tests is not an Easy Task"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description" content="Being a consultant means I do see a lot of projects with various levels of code quality and testing. There is a lot to say about how to..."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale" content="en_US"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url" content="/2025/02/writing-good-tests-is-not-an-easy-task.html"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type" content="article"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:published_time" content="2025-02-23 00:00:00+00:00"/>
+<meta prefix="og: http://ogp.me/ns#" property="article:modified_time" content=""/>
+<meta prefix="og: http://ogp.me/ns#" property="article:author" content="/author/adriana-vasiu">
+<meta prefix="og: http://ogp.me/ns#" property="article:section" content="testing"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image" content="/images/mooseberry_tech-BACKGOURND.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Writing Good Tests is not an Easy Task",
+  "headline": "Writing Good Tests is not an Easy Task",
+  "datePublished": "2025-02-23 00:00:00+00:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Adriana Vasiu",
+    "url": "/author/adriana-vasiu"
+  },
+  "image": "/theme/images/post-bg.jpg",
+  "url": "/2025/02/writing-good-tests-is-not-an-easy-task.html",
+  "description": "Being a consultant means I do see a lot of projects with various levels of code quality and testing. There is a lot to say about how to..."
+}
+</script>
+</head>
+
+
+
+
+
+
+
+<body class="category-template">
+
+<div class="nav-header">
+  <nav class="nav-wrapper" aria-label="Main">
+<ul>
+
+    <li class="nav-Home " role="presentation"><a href="/"><span>Home</span></a></li>
+    <li class="nav-Author " role="presentation"><a href="/author/adriana-vasiu/"><span>Author</span></a></li>
+    <li class="nav-Testing " role="presentation"><a href="/category/testing/"><span>Testing</span></a></li>
+    <li class="nav-Development " role="presentation"><a href="/category/development/"><span>Development</span></a></li>
+    <li class="nav-Instrumentation " role="presentation"><a href="/category/instrumentation/"><span>Instrumentation</span></a></li>
+    <li class="nav-Automation " role="presentation"><a href="/category/automation/"><span>Automation</span></a></li>
+    <li class="nav-Ways of Working " role="presentation"><a href="/category/ways-of-working/"><span>Ways of Working</span></a></li>
+
+      <li role="presentation"><a href="/pages/about-mooseberry-tech-blog/"><span>About Mooseberry Tech Blog</span></a></li>
+</ul>
+<ul class="nav-meta">
+  <li class="nav-search" style="display: none;">
+    <a title="Search">
+      <i class="icon icon-search" aria-hidden="true"></i>
+      <span>Search</span>
+    </a>
+  </li>
+</ul>  </nav>
+
+  <div class="nav-wrapper-control">
+    <div class="inner">
+      <a class="nav-menu" role="button"><i class="icon icon-menu" aria-hidden="true"></i>Menu</a>
+      <a class="nav-search" title="Search" role="button" style="display: none;"><i class="icon icon-search" aria-hidden="true"></i></a>
+    </div>
+  </div>
+</div>
+<div class="nav-close" role="button" aria-label="Close"></div>
+  <section id="wrapper" class="page-wrapper">
+    <!-- Progressbar -->
+    <div class="progress-container">
+      <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="post-header ">
+      <div class="inner">
+        <span class="post-info">
+          <span class="post-type">Article</span>
+          <span class="post-count">Testing</span>
+        </span>
+        <h1 class="post-title">Writing Good Tests is not an Easy Task</h1>
+        <div class="post-meta">
+          <div class="post-meta-avatars">
+
+
+            <figure class="post-meta-avatar avatar">
+              <a class="author-avatar" href="/author/adriana-vasiu">
+                <img class="author-profile-image" src="/images/mooseberry_tech-512x512-NO-TEXT.png" alt="Adriana Vasiu" />
+              </a>
+            </figure>
+          </div>
+
+          <h4 class="post-meta-author">
+            Adriana Vasiu
+          </h4>
+          <time datetime="Sun 23 February 2025">Sun 23 February 2025</time>
+        </div>
+      </div>
+    </header>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+          <section class="post-content">
+            <p>Being a consultant means I do see a lot of projects with various levels of code quality and testing.
+There is a lot to say about how to measure the quality of a software project, that in itself is worth a separate blog post,
+but in essence, quality is about how well a project serves its purpose for the business. </p>
+<p>The best projects I have seen in that respect are projects that have excellent tests. 
+If you know what you are testing, you know what you are delivering and why. </p>
+<p>The following test characteristics are key to good testing. </p>
+<h3>Simple and Obvious</h3>
+<p>Writing tests is actually a different paradigm from writing code for production.</p>
+<p>When I design code I think about how to avoid repeatability and how to build for extensibility. 
+With tests, I avoid any logic that might cause me introducing bugs in the tests themselves. There are techniques that can be used 
+to avoid some of the repeatability, like parametrizing tests with different data sets. But beyond that, I don't 
+introduce any logic that takes away from the simplicity of the tests. </p>
+<p>My tests focus always on the code itself, how to test every scenario, their aim is just that. 
+They are so simple that anyone that reads them can figure out exactly what they are doing and how. 
+There is nothing smart or sophisticated about my tests.
+Any test utilities that I build, for example mocks, are doing very little. Just enough to emulate what I want to assert.</p>
+<p>When I say that tests should be obvious, I mean it. Make them as explicit as you possibly can. 
+So obvious that they should be easy to understand even when you are exhausted or distracted. </p>
+<h3>Living documentation</h3>
+<p>The first thing I look at when I open a new codebase are the tests. If I can read them and understand what they are testing, 
+this reduces my cognitive load on understanding the project. 
+Is true that you can not know everything about a project just from tests, you will still need to understand architecture 
+or how the software is delivered into production, but the tests tells a compelling story about the code. </p>
+<p>If tests are small, with descriptive names, you know that the developers have focused on the details of their code, and they truly understand
+how the code evolves. You can read what the code is supposed to do in certain situations, you can get an idea about what data 
+your code is handling. </p>
+<p>Tests are the best documentation you can produce while evolving your code. If you have functional tests in BDD style as well, then the living documentation
+is very much improved and can be read by anyone in the business, with or without coding experience.</p>
+<h3>Independent and Isolated</h3>
+<p>Whenever I write one test, I write it in complete isolation. My test should be able to run by itself and with other tests. 
+There is no order in which my tests should be run. The same setup should work for one or one hundred tests. </p>
+<p>When you encounter tests that affect other tests, by modifying some setup, or creating some state, the confidence in what the test
+is verifying is greatly reduced. You cannot predict any side effects, so you should avoid them at all costs. 
+Avoid this, and you will avoid intermittent test failures and test debugging nightmares.</p>
+<p>If your tests depend on state - e.g. you are testing with an in memory database which needs to be migrated first, then make that setup external 
+to the test itself. The setup should be part of your test framework. The test itself should have no control on any shared state.</p>
+<h3>Focused</h3>
+<p>I write my tests as focused as possible because when I refactor code and I accidentally break something, I want to see
+exactly what the impact is. If I have to debug through the test itself to find out what I actually broke than that is a big sign
+that my test is way too complicated and is not focused on a specific scenario.</p>
+<p>Especially unit tests, they should be small, focused and assert one specific thing. This is not about having one assert statement, you might
+have more than one, because you are verifying some more complex output data for example, but the test should zoom in on one concern. </p>
+<p>Let's take a method that does two things (arguably it does too much) - updates two different data models at once. 
+Your should have one test for each model update. If you do a refactoring and introduce a bug related to just one model, only the test that looks at updating that model
+should fail, you shouldn't need to look at anything else.</p>
+<p>Test one thing, test it well, do not look back. </p>
+<h3>Portable</h3>
+<p>I consider portability to be a very important aspect of good tests. In practice, this is often overlooked.</p>
+<p>When functional tests are run in a repeatable and portable way, in all environments - local, ci, deployed environment - you have a reliable way
+to assert your assumptions. 
+I specifically mention functional here, because non-functional tests, of course, depend on the specification of their target environment.</p>
+<p>If you are aiming to run your tests for example in docker, deployed as a kubernetes job, targeting a system run in kubernetes,
+than package and run your tests locally in docker. Setup the whole stack you are testing against, with mock dependencies, in docker-compose
+and run the tests in docker. 
+Your CI should do that even before your code reaches the cluster.</p>
+<h3>Non-Brittle</h3>
+<p>Test brittleness is a tricky subject because is not always an indicator that your tests are wrongly designed, most of the time 
+is an indicator that your code is coupled and cannot be tested in small units. </p>
+<p>Either way, if you modify one line of code, and you break a lot of tests, you have a problem.
+This is when you can use the tests to actually drive better design for your code, decouple it, make it easily testable. </p>
+<p>Another cause for test brittleness is when tests are forced to make use of a lot of patching. Imagine that you change the name of 
+one method, and you break not only the tests for that method but a lot more. That means that you should make use of dependency injection in your code.</p>
+<p>The main thing about brittleness of the tests is the fact that it drives code improvements when tackled correctly. </p>
+<p>Another thing to note here is that you wouldn't need to deal with brittleness if you started with the tests.
+So consider Test Driven Development if you want to develop code that is easily testable. </p>
+<h2>Summary</h2>
+<p>I find that writing good tests can be more challenging that writing good code sometimes.</p>
+<p>There are good examples, tutorials and a lot of libraries that can help you design your tests better, but you need to think of them 
+as a great asset when you develop, not an afterthought. 
+The more you refine your testing strategy the more thought you put in what your code actually does and how it's serving its purpose.</p>
+<p>A strong test coverage is the foundation of your code's sustainability through continuous refactoring and simplification. </p>
+          </section>
+
+
+          <section class="post-footer" >
+            <div class="post-share">
+              <span class="post-info-label">Share</span>
+              <a title="Twitter" aria-label="Twitter" class="twitter" href="https://twitter.com/share?text=Writing Good Tests is not an Easy Task&amp;url=/2025/02/writing-good-tests-is-not-an-easy-task.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                <i class="icon icon-twitter" aria-hidden="true"></i><span class="hidden">Twitter</span>
+              </a>
+              <a title="Facebook" aria-label="Facebook" class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2025/02/writing-good-tests-is-not-an-easy-task.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                <i class="icon icon-facebook" aria-hidden="true"></i><span class="hidden">Facebook</span>
+              </a>
+              <a title="LinkedIn" aria-label="LinkedIn" class="linkedin" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=/2025/02/writing-good-tests-is-not-an-easy-task.html&amp;title=Writing Good Tests is not an Easy Task" onclick="window.open(this.href, 'linkedin-share', 'width=930,height=720');return false;">
+                <i class="icon icon-linkedin" aria-hidden="true"></i><span class="hidden">LinkedIn</span>
+              </a>
+              <a title="Email" aria-label="Email" class="email" href="mailto:?subject=Writing Good Tests is not an Easy Task&amp;body=/2025/02/writing-good-tests-is-not-an-easy-task.html">
+                <i class="icon icon-mail" aria-hidden="true"></i><span class="hidden">Email</span>
+              </a>
+              <div class="clear"></div>
+            </div>
+
+
+            <div class="clear"></div>
+
+
+          </section>
+
+
+          <aside class="post-nav">
+            <div class="clear"></div>
+          </aside>
+
+        </div>
+      </article>
+    </main>
+    <div class="nav-footer">
+      <nav class="nav-wrapper" aria-label="Footer">
+        <span class="nav-copy"> &copy; 2023
+        </span>
+        <span class="nav-credits">
+
+
+
+          Published with <a href="https://github.com/getpelican/pelican" rel="nofollow">Pelican</a> &bull; Theme <a href="https://github.com/arulrajnet/attila" rel="nofollow">Attila</a> &bull;
+          <a class="menu-item js-theme" href="#" data-system="System theme" data-dark="Dark theme" data-light="Light theme">
+            <span class="theme-icon"></span><span class="theme-text">System theme</span>
+          </a>
+        </span>
+      </nav>
+    </div>
+
+  </section>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script type="text/javascript" src="/theme/js/jquery.fitvids.js"></script>
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+
+  <!-- 	The #block helper will pull in data from the #contentFor other template files. In this case, there's some JavaScript which we only want to use in article.html, but it needs to be included down here, after jQuery has already loaded. -->
+
+<script>
+  $(document).ready(function () {
+    var viewport = $(window);
+    var post = $('.post-content');
+    // Responsive videos with fitVids
+    post.fitVids();
+
+    var mdSelector=".highlight pre";
+    var rstSelector=".highlight pre";
+    var selector=mdSelector;
+    // Format code blocks and add line numbers
+    function codestyling() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+        // No lines for plain text blocks
+        if (!$(this).hasClass('language-text')) {
+          var code = $(this);
+          // Calculate amount of lines
+          var lines = code.html().split(/\n(?!$)/g).length;
+          var numbers = [];
+          if (lines > 1) {
+            lines++;
+          }
+          for (i = 1; i < lines; i++) {
+            numbers += '<span class="line" aria-hidden="true">' + i + '</span>';
+          }
+          code.parent().append('<div class="lines">' + numbers + '</div>');
+        }
+      });
+    }
+
+    // Format code blocks only
+    function codestylingWithoutLineNumbers() {
+      $(selector).each(function(i, e) {
+        // Code highlight
+        hljs.highlightElement(e);
+      });
+    }
+
+    codestylingWithoutLineNumbers();
+    // Reading progress bar on window top
+    function readingProgress() {
+      var postBottom = post.offset().top + post.height();
+      var viewportHeight = viewport.height();
+      var progress = 100 - (((postBottom - (viewport.scrollTop() + viewportHeight) + viewportHeight / 3) / (postBottom - viewportHeight + viewportHeight / 3)) * 100);
+      $('.progress-bar').css('width', progress + '%');
+      (progress > 100) ? $('.progress-container').addClass('complete'): $('.progress-container').removeClass('complete');
+    }
+    readingProgress();
+    // Trigger reading progress
+    viewport.on({
+      'scroll': function() {
+        readingProgress();
+      },
+      'resize': function() {
+        readingProgress();
+      },
+      'orientationchange': function() {
+        readingProgress();
+      }
+    });
+
+  });
+</script>
+</body>
+
+</html>
